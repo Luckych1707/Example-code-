@@ -1,0 +1,10 @@
+{
+  "title": "Авторизация",
+  "signIn": "Войти",
+  "form": {
+    "emailPlaceholder": "Введите почту",
+    "passwordPlaceholder": "Введите пароль",
+    "emailLabel": "Email",
+    "passwordLabel": "Пароль"
+  }
+}
