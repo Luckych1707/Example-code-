@@ -5,8 +5,10 @@ import {
   Navigate,
 } from "@tanstack/react-router";
 
+import { Layout } from "@/components/Layout";
+
 const rootRoute = createRootRoute({
-  component: () => <></>,
+  component: () => <Layout />,
 });
 
 const emptyRoute = createRoute({
@@ -15,7 +17,40 @@ const emptyRoute = createRoute({
   component: () => <Navigate to="/" />,
 });
 
-const routeTree = rootRoute.addChildren([emptyRoute]);
+const directoryRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/routes",
+  component: () => <div>routes</div>,
+});
+const categoriesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/categories",
+  component: () => <div>categories</div>,
+});
+const citiesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/cities",
+  component: () => <div>cities</div>,
+});
+const calendarRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/calendar",
+  component: () => <div>calendar</div>,
+});
+const feedbackRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/feedback",
+  component: () => <div>feedback</div>,
+});
+
+const routeTree = rootRoute.addChildren([
+  emptyRoute,
+  directoryRoute,
+  categoriesRoute,
+  citiesRoute,
+  calendarRoute,
+  feedbackRoute,
+]);
 
 export const router = createRouter({ routeTree });
 
