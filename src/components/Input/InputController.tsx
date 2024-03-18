@@ -17,7 +17,7 @@ export const InputController = <
       {...props}
       render={({ field }) => {
         return (
-          <Flex vertical gap="4px">
+          <Flex vertical gap="4px" style={{ width: "100%" }}>
             {label && <Typography.Text>{label}</Typography.Text>}
             <Input {...field} placeholder={placeholder} prefix={prefix} />
           </Flex>
