@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 
 import { Layout } from "@/components/Layout";
+import Categories from "@/routes/Сategories";
 
 const rootRoute = createRootRoute({
   component: () => <Layout />,
@@ -25,7 +26,7 @@ const directoryRoute = createRoute({
 const categoriesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/categories",
-  component: () => <div>categories</div>,
+  component: () => <Categories />,
 });
 const citiesRoute = createRoute({
   getParentRoute: () => rootRoute,

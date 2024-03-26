@@ -73,16 +73,12 @@ export const Layout = () => {
             </Typography.Title>
             <Flex align="center" gap="16px">
               <Typography.Text>example@email.com</Typography.Text>
-              <Button
-                icon={<LoginOutlined />}
-                type="text"
-                style={{ color: "#F5222D" }}
-              />
+              <Button icon={<LoginOutlined />} type="text" danger />
             </Flex>
           </Flex>
         </AntdLayout.Header>
 
-        <AntdLayout.Content style={{ flexGrow: 1 }}>
+        <AntdLayout.Content style={{ padding: "40px 64px" }}>
           <Suspense
             fallback={
               <Flex justify="center" align="center" style={{ height: "100%" }}>
