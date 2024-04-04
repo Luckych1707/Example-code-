@@ -1,10 +1,12 @@
 import { Tag } from "antd";
 
+import { FeedbackStatus as FeedbackStatusType } from "@/shared/types/types";
+
 type Props = {
-  status: "new" | "processed" | "viewed";
+  status: FeedbackStatusType;
 };
 
-export const Status = ({ status }: Props) => {
+export const FeedbackStatus = ({ status }: Props) => {
   switch (status) {
     case "new":
       return <Tag color="blue">Новое</Tag>;

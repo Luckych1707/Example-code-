@@ -5,6 +5,7 @@ import {
   Navigate,
 } from "@tanstack/react-router";
 
+import Feedback from "@/pages/Feedback";
 import Categories from "@/pages/Сategories";
 import { Layout } from "@/widgets/Layout";
 
@@ -41,7 +42,7 @@ const calendarRoute = createRoute({
 const feedbackRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/feedback",
-  component: () => <div>feedback</div>,
+  component: () => <Feedback />,
 });
 
 const routeTree = rootRoute.addChildren([

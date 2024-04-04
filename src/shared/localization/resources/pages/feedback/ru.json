@@ -1,0 +1,22 @@
+{
+  "filters": {
+    "statusTitle": "Статусы обращений",
+    "dateTitle": "Сортировка по дате обращения",
+    "submit": "Применить",
+    "reset": "Сбросить",
+    "statusesLabels": {
+      "new": "Новые",
+      "processed": "Обработанные",
+      "viewed": "Новые"
+    }
+  },
+  "feedbackItemDrawer": {
+    "title": "Обращение",
+    "osVersion": "Версия ОС",
+    "deviceName": "Наименование устройства",
+    "appVersion": "Версия приложения ",
+    "answerLabel": "Ответ на обращение",
+    "answerPlaceholder": "Введите ответ на обращение",
+    "submit": "Ответить"
+  }
+}
