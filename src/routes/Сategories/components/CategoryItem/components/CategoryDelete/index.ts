@@ -1,1 +1,0 @@
-export { CategoryDelete } from "./CategoryDelete";

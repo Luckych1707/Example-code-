@@ -1,1 +1,0 @@
-export { CategoryCreate } from "./CategoryCreate";

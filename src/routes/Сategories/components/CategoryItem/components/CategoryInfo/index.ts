@@ -1,1 +1,0 @@
-export { CategoryInfo } from "./CategoryInfo";
