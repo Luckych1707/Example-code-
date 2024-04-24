@@ -31,7 +31,7 @@ export const Layout = () => {
   return (
     <AntdLayout>
       <AntdLayout.Sider
-        style={{ height: "100%", minHeight: "100vh" }}
+        style={{ minHeight: "100vh" }}
         breakpoint="lg"
         width="280px"
       >
@@ -58,14 +58,15 @@ export const Layout = () => {
           style={{
             backgroundColor: "#FFFFFF",
             height: "72px",
+            padding: "0 64px",
           }}
         >
           <Flex
             justify="space-between"
             align="center"
-            style={{ padding: "20px 64px" }}
+            style={{ padding: "20px 0" }}
           >
-            <Typography.Title level={3} style={{ margin: 0 }}>
+            <Typography.Title level={3} style={{ margin: 0, padding: 0 }}>
               {
                 navConfig.filter((item) => item.link === selectedMenuKey)[0]
                   ?.title
@@ -78,7 +79,7 @@ export const Layout = () => {
           </Flex>
         </AntdLayout.Header>
 
-        <AntdLayout.Content style={{ padding: "40px 64px" }}>
+        <AntdLayout.Content style={{ padding: "38px 64px" }}>
           <Suspense
             fallback={
               <Flex justify="center" align="center" style={{ height: "100%" }}>
