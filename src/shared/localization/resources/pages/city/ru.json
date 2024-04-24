@@ -1,0 +1,16 @@
+{
+  "addCityButton": "Добавить город",
+  "cityDrawer": {
+    "drawerTitle": "Город",
+    "editDrawerTitle": "Редактирование города",
+    "cityDeletionConfirmation": "Вы действительно хотите удалить город?",
+    "form": {
+      "labelName": "Название",
+      "placeholderName": "Введите название",
+      "labelPhoto": "Фото",
+      "placeholderPhoto": "Добавить",
+      "labelDescription": "Описание",
+      "placeholderDescription": "Введите описание"
+    }
+  }
+}
