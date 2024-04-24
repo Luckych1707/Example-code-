@@ -1,3 +1,10 @@
 {
-  "mainTitle": "RussGuide"
+  "mainTitle": "RussGuide",
+  "actions": {
+    "addButton": "Добавить",
+    "editButton": "Редактировать",
+    "deleteButton": "Удалить",
+    "saveButton": "Сохранить",
+    "cancelButton": "Отменить"
+  }
 }
