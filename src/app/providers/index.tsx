@@ -1,3 +1,5 @@
+import "dayjs/locale/ru";
+
 import { QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "@tanstack/react-router";
 import { Flex, Spin } from "antd";
