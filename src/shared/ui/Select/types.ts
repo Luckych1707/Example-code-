@@ -5,5 +5,7 @@ export interface SelectControllerProps<
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends Omit<ControllerProps<TFieldValues, TName>, "render"> {
   label?: string;
+  placeholder?: string;
   options?: { label: string; value: string }[];
+  mode?: "multiple" | "tags";
 }

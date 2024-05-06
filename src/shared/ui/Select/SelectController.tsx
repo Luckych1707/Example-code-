@@ -9,6 +9,8 @@ export const SelectController = <
 >({
   label,
   options,
+  mode,
+  placeholder,
   ...props
 }: SelectControllerProps<TFieldValues, TName>) => {
   return (
@@ -18,7 +20,12 @@ export const SelectController = <
         return (
           <Flex vertical gap="4px" style={{ width: "100%" }}>
             {label && <Typography.Text>{label}</Typography.Text>}
-            <Select {...field} options={options} />
+            <Select
+              {...field}
+              options={options}
+              mode={mode}
+              placeholder={placeholder}
+            />
           </Flex>
         );
       }}
