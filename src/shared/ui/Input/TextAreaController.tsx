@@ -18,7 +18,11 @@ export const TextAreaController = <
         return (
           <Flex vertical gap="4px" style={{ width: "100%" }}>
             {label && <Typography.Text>{label}</Typography.Text>}
-            <Input.TextArea {...field} placeholder={placeholder} />
+            <Input.TextArea
+              {...field}
+              placeholder={placeholder}
+              autoSize={true}
+            />
           </Flex>
         );
       }}
