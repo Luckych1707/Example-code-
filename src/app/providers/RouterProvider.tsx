@@ -5,6 +5,7 @@ import {
   Navigate,
 } from "@tanstack/react-router";
 
+import Calendar from "@/pages/Calendar";
 import Cities from "@/pages/Cities";
 import Feedback from "@/pages/Feedback";
 import Categories from "@/pages/Сategories";
@@ -38,7 +39,7 @@ const citiesRoute = createRoute({
 const calendarRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/calendar",
-  component: () => <div>calendar</div>,
+  component: () => <Calendar />,
 });
 const feedbackRoute = createRoute({
   getParentRoute: () => rootRoute,

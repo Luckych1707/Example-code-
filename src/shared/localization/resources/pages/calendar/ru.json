@@ -1,0 +1,26 @@
+{
+  "addEventButton": "Добавить событие",
+  "emptyEventList": "На эту дату нет событий",
+  "eventDrawer": {
+    "createTitle": "Добавление события",
+    "editTitle": "Редактирование события",
+    "infoTitle": "Событие",
+    "eventDeletionConfirmation": "Вы действительно хотите удалить событие?",
+    "fields": {
+      "nameLabel": "Название",
+      "namePlaceholder": "Введите название",
+      "cityLabel": "Город",
+      "cityPlaceholder": "Введите город",
+      "dateLabel": "Дата",
+      "datePlaceholder": "Введите дата",
+      "descriptionLabel": "Описание",
+      "descriptionPlaceholder": "Введите описание",
+      "routesLabel": "Связанные маршруты",
+      "routesPlaceholder": "Выберите маршруты",
+      "latitudeLabel": "Широта",
+      "latitudePlaceholder": "Введите широту",
+      "longitudeLabel": "Долгота",
+      "longitudePlaceholder": "Введите долготу"
+    }
+  }
+}
