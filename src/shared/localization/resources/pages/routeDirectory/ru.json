@@ -1,0 +1,11 @@
+{
+  "addRouteButton": "Добавить маршрут",
+  "confirmDeleteText": " Вы действительно хотите удалить маршрут?",
+  "draft": "Черновик",
+  "filters": {
+    "nameLabel": "Поиск по названию города",
+    "namePlaceholder": "Введите название города",
+    "sortFieldLabel": "Сортировка по названию города",
+    "sortFieldPlaceholder": "Выберите сортировку"
+  }
+}

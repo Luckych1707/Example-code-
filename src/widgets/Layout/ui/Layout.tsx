@@ -1,5 +1,10 @@
-import { LoginOutlined } from "@ant-design/icons";
-import { Link, Outlet, useChildMatches } from "@tanstack/react-router";
+import { ArrowLeftOutlined, LoginOutlined } from "@ant-design/icons";
+import {
+  Link,
+  Outlet,
+  useChildMatches,
+  useRouter,
+} from "@tanstack/react-router";
 import {
   Button,
   Flex,
@@ -18,13 +23,17 @@ import { navConfig } from "@/shared/constants/navConfig";
 export const Layout = () => {
   const { t } = useTranslation("glossary");
 
+  const router = useRouter();
+
   const match = useChildMatches();
 
   const selectedMenuKey = `/${match[0]?.pathname.split("/")?.[1]}`;
 
   const isAuthorized = false;
 
-  if (!isAuthorized) {
+  const onBack = () => router.history.back();
+
+  if (isAuthorized) {
     return <SignIn />;
   }
 
@@ -42,14 +51,18 @@ export const Layout = () => {
         </Flex>
 
         <Menu theme="dark" mode={"vertical"} selectedKeys={[selectedMenuKey]}>
-          {navConfig.map((item) => (
-            <Menu.Item key={item.link}>
-              <Space>
-                {item.icons}
-                <Link to={item.link}>{item.title}</Link>
-              </Space>
-            </Menu.Item>
-          ))}
+          {navConfig.map((item) => {
+            return (
+              item.show && (
+                <Menu.Item key={item.link}>
+                  <Space>
+                    {item.icons}
+                    <Link to={item.link}>{item.title}</Link>
+                  </Space>
+                </Menu.Item>
+              )
+            );
+          })}
         </Menu>
       </AntdLayout.Sider>
 
@@ -66,12 +79,23 @@ export const Layout = () => {
             align="center"
             style={{ padding: "20px 0" }}
           >
-            <Typography.Title level={3} style={{ margin: 0, padding: 0 }}>
-              {
-                navConfig.filter((item) => item.link === selectedMenuKey)[0]
-                  ?.title
-              }
-            </Typography.Title>
+            <Flex align="center" gap="16px">
+              {!!navConfig.find(
+                (item) => item.link === selectedMenuKey && item.back,
+              ) && (
+                <Button
+                  icon={<ArrowLeftOutlined />}
+                  type="link"
+                  onClick={onBack}
+                />
+              )}
+              <Typography.Title level={3} style={{ margin: 0, padding: 0 }}>
+                {
+                  navConfig.filter((item) => item.link === selectedMenuKey)[0]
+                    ?.title
+                }
+              </Typography.Title>
+            </Flex>
             <Flex align="center" gap="16px">
               <Typography.Text>example@email.com</Typography.Text>
               <Button icon={<LoginOutlined />} type="text" danger />
