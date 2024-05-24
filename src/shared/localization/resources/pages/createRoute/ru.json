@@ -1,0 +1,66 @@
+{
+  "title": "Добавление маршрута",
+  "addWaypointButton": "Добавить точку",
+  "field": {
+    "nameLabel": "Название",
+    "namePlaceholder": "Введите название",
+    "cityLabel": "Город",
+    "cityPlaceholder": "Выберите город",
+    "categoryLabel": "Категория",
+    "categoryPlaceholder": "Выберите категорию",
+    "filesLabel": "Фото / Видео материалы",
+    "filesSecondaryLabel": "от 1 до 5 штук",
+    "descriptionLabel": "Описание",
+    "descriptionPlaceholder": "Введите описание",
+    "kmDurationLabel": "Продолжительность маршрута (в км)",
+    "kmDurationPlaceholder": "Введите продолжительность в км",
+    "hourDurationLabel": "Продолжительность маршрута (в часах)",
+    "hourDurationPlaceholder": "Введите продолжительность в часах",
+    "priceLabel": "Цена",
+    "pricePlaceholder": "Введите цену",
+    "waypoint": {
+      "waypointTitle": "Точки маршрута",
+      "title": "#{{ index }} {{ name }}",
+      "addMaterialButton": "Добавить материал",
+      "actions": {
+        "expand": "Развернуть всё",
+        "collapse": "Свернуть все"
+      },
+      "field": {
+        "nameLabel": "Название",
+        "namePlaceholder": "Введите название",
+        "photoLabel": "Фото",
+        "audioLabel": "Аудиозапись",
+        "descriptionLabel": "Описание",
+        "descriptionPlaceholder": "Введите описание",
+        "latitudeLabel": "Широта",
+        "latitudePlaceholder": "Введите широту",
+        "longitudeLabel": "Долгота",
+        "longitudePlaceholder": "Введите долготу",
+        "deleteWaypointPopconfirm": {
+          "title": "Удаление точки маршрута",
+          "description": "Вы действительно хотите удалить точку маршрута?",
+          "okText": "Удалить",
+          "cancelText": "Отменить"
+        }
+      },
+      "material": {
+        "title": "Подборка стихов / фильмов",
+        "field": {
+          "nameLabel": "Название",
+          "namePlaceholder": "Введите название",
+          "yearOfIssueLabel": "Год выпуска",
+          "yearOfIssuePlaceholder": "Введите год выпуска",
+          "shortDescriptionLabel": "Краткое описание",
+          "shortDescriptionPlaceholder": "Введите краткое описание",
+          "deleteMaterialPopconfirm": {
+            "title": "Удаление материала",
+            "description": "Вы действительно хотите выбранный материал?",
+            "okText": "Удалить",
+            "cancelText": "Отменить"
+          }
+        }
+      }
+    }
+  }
+}

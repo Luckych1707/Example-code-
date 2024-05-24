@@ -10,6 +10,7 @@ export const InputController = <
   label,
   placeholder,
   prefix,
+  suffix,
   ...props
 }: InputControllerProps<TFieldValues, TName>) => {
   return (
@@ -19,7 +20,12 @@ export const InputController = <
         return (
           <Flex vertical gap="4px" style={{ width: "100%" }}>
             {label && <Typography.Text>{label}</Typography.Text>}
-            <Input {...field} placeholder={placeholder} prefix={prefix} />
+            <Input
+              {...field}
+              placeholder={placeholder}
+              prefix={prefix}
+              suffix={suffix}
+            />
           </Flex>
         );
       }}

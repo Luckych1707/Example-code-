@@ -8,6 +8,7 @@ export interface InputControllerProps<
   label?: string;
   placeholder?: string;
   prefix?: React.ReactNode;
+  suffix?: string;
 }
 
 export interface TextAreaControllerProps<

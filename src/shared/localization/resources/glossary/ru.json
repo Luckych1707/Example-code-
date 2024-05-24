@@ -1,10 +1,17 @@
 {
   "mainTitle": "RussGuide",
+  "morphemes": {
+    "km": "км",
+    "hours": "час(ов)",
+    "rubles": "₽",
+    "lattice": "#{{ key }}"
+  },
   "actions": {
     "addButton": "Добавить",
     "editButton": "Редактировать",
     "deleteButton": "Удалить",
     "saveButton": "Сохранить",
-    "cancelButton": "Отменить"
+    "cancelButton": "Отменить",
+    "resetButton": "Сбростить"
   }
 }

@@ -7,9 +7,12 @@ import {
 
 import Calendar from "@/pages/Calendar";
 import Cities from "@/pages/Cities";
+import AddRoute from "@/pages/CreateRoute";
 import Feedback from "@/pages/Feedback";
+import RouteDirectory from "@/pages/RouteDirectory";
 import Categories from "@/pages/Сategories";
 import { Layout } from "@/widgets/Layout";
+import RouteInformation from "@/pages/InfoRoute";
 
 const rootRoute = createRootRoute({
   component: () => <Layout />,
@@ -24,7 +27,7 @@ const emptyRoute = createRoute({
 const directoryRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/routes",
-  component: () => <div>routes</div>,
+  component: () => <RouteDirectory />,
 });
 const categoriesRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -46,6 +49,16 @@ const feedbackRoute = createRoute({
   path: "/feedback",
   component: () => <Feedback />,
 });
+const createRouteRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/create-route",
+  component: () => <AddRoute />,
+});
+const infoRouteRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/info-route/$id",
+  component: () => <RouteInformation />,
+});
 
 const routeTree = rootRoute.addChildren([
   emptyRoute,
@@ -54,6 +67,8 @@ const routeTree = rootRoute.addChildren([
   citiesRoute,
   calendarRoute,
   feedbackRoute,
+  createRouteRoute,
+  infoRouteRoute,
 ]);
 
 export const router = createRouter({ routeTree });
