@@ -1,16 +1,22 @@
+import { UploadFile } from "antd";
+
+import { CityResponse } from "@/shared/api/schemas";
+
 export type CityInfoType = {
-  city: { id: string; title: string; text: string; img: string };
+  city?: CityResponse;
   setCityVariant: (variant: string | undefined) => void;
   cityVariant: string;
+  onClose: () => void;
 };
 
 export type CityEditType = {
-  city: { id: string; title: string; text: string; img: string };
+  city?: CityResponse;
   setCityVariant: (variant: string | undefined) => void;
+  onClose: () => void;
 };
 
 export type CityEditValues = {
   name: string;
-  image: string;
+  image?: { file: UploadFile; fileList: UploadFile[] };
   description: string;
 };

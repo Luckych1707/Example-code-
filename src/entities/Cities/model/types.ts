@@ -1,4 +1,6 @@
+import { CityResponse } from "@/shared/api/schemas";
+
 export type CitiesCardProps = {
-  cities: { title: string; text: string; img: string; id: string };
+  cities: CityResponse;
   setSelectedCity: (city: { id: string; variant: string }) => void;
 };
