@@ -1,6 +1,6 @@
 variables:
   REMOTE_ADDRESS: $REMOTE_USER@$REMOTE_HOST
-  ENVIRONMENT: stage
+  ENVIRONMENT: develop
 
 stages:
   - build
@@ -8,44 +8,33 @@ stages:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       variables:
-        ENVIRONMENT: stage
-    - if: $CI_COMMIT_BRANCH == "prod"
-      variables:
-        ENVIRONMENT: prod
-    - if: $CI_COMMIT_BRANCH == "stage"
-      variables:
-        ENVIRONMENT: qa-stage
+        ENVIRONMENT: develop
     - when: always
 
 stage_build:
   stage: build
   environment: $ENVIRONMENT
   tags:
-    - web
+    - new_runner
   script:
-    - echo "$ENV" > ".env"
-    - yarn install
-    - yarn build
+    - npm install
+    - npm run build
 
   artifacts:
     name: $CI_PROJECT_NAME
     expire_in: 1 week
     paths:
-      - dist/
+      - build/
 
 stage_deploy:
   stage: deploy
   environment: $ENVIRONMENT
   rules:
-    - if: $CI_COMMIT_BRANCH == "prod"
-      when: manual
     - if: $CI_COMMIT_BRANCH == "develop"
-      when: always
-    - if: $CI_COMMIT_BRANCH == "stage"
-      when: always
+      when: always  
   tags:
-    - web
+    - new_runner
   script:
-    - rsync -avh ./dist/* $REMOTE_ADDRESS:$REMOTE_DIR --delete
+    - rsync -avh ./build/* $REMOTE_ADDRESS:$REMOTE_DIR --delete
