@@ -23,7 +23,7 @@ stage_build:
   stage: build
   environment: $ENVIRONMENT
   tags:
-    - web
+    - new_runner
   script:
     - echo "$ENV" > ".env"
     - yarn install
