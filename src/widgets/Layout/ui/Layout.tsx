@@ -1,4 +1,5 @@
 import { ArrowLeftOutlined, LoginOutlined } from "@ant-design/icons";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Link,
   Outlet,
@@ -14,11 +15,15 @@ import {
   Spin,
   Typography,
 } from "antd";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import SignIn from "@/pages/SignIn";
+import { refreshToken } from "@/shared/api/handBooks/mutation/refreshToken";
+import { getMe } from "@/shared/api/handBooks/queries/getMe";
 import { navConfig } from "@/shared/constants/navConfig";
+
+const tokenUpdateTime = 90000;
 
 export const Layout = () => {
   const { t } = useTranslation("glossary");
@@ -29,11 +34,49 @@ export const Layout = () => {
 
   const selectedMenuKey = `/${match[0]?.pathname.split("/")?.[1]}`;
 
-  const isAuthorized = false;
-
   const onBack = () => router.history.back();
 
-  if (isAuthorized) {
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    location.reload();
+  };
+
+  const { data, isLoading } = useQuery({
+    ...getMe.getQueryOptions(),
+  });
+
+  const refreshMutation = useMutation({
+    ...refreshToken.getMutationOptions(),
+    onSuccess: async (response) => {
+      localStorage.setItem("accessToken", response?.accessToken || "");
+      localStorage.setItem("refreshToken", response?.refreshToken || "");
+    },
+  });
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (!localStorage.getItem("refreshToken")) {
+        return;
+      }
+
+      refreshMutation.mutate(localStorage.getItem("refreshToken") || "");
+    }, tokenUpdateTime);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [refreshMutation]);
+
+  if (isLoading) {
+    return (
+      <Flex justify="center" align="center" style={{ height: "100vh" }}>
+        <Spin />
+      </Flex>
+    );
+  }
+
+  if (!data) {
     return <SignIn />;
   }
 
@@ -97,8 +140,13 @@ export const Layout = () => {
               </Typography.Title>
             </Flex>
             <Flex align="center" gap="16px">
-              <Typography.Text>example@email.com</Typography.Text>
-              <Button icon={<LoginOutlined />} type="text" danger />
+              <Typography.Text>{data.email}</Typography.Text>
+              <Button
+                icon={<LoginOutlined />}
+                type="text"
+                danger
+                onClick={handleLogout}
+              />
             </Flex>
           </Flex>
         </AntdLayout.Header>

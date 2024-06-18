@@ -1,6 +1,6 @@
 import { Flex } from "antd";
 
-import { SignInForm } from "@/features/SignIn";
+import { SignInForm } from "@/widgets/SignIn";
 
 const SignIn = () => {
   return (

@@ -21,6 +21,7 @@ module.exports = {
   ],
   plugins: ["react", "simple-import-sort"],
   rules: {
+    "import/no-named-as-default": 0,
     "react/react-in-jsx-scope": "off",
     "import/no-cycle": "error",
     "import/newline-after-import": "warn",
