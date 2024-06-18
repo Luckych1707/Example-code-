@@ -37,4 +37,5 @@ stage_deploy:
   tags:
     - new_runner
   script:
+    - whoami
     - rsync -avh ./dist/* $REMOTE_ADDRESS:$REMOTE_DIR --delete
