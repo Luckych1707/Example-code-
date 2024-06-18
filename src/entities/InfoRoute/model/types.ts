@@ -1,9 +1,8 @@
-import { WaypointType } from "@/pages/InfoRoute/model/mock";
+import { WaypointResponse } from "@/shared/api/schemas";
 
 export type WaypointProps = {
-  item: WaypointType;
+  item: WaypointResponse;
   index: number;
-
   isAllClosed: boolean;
   setIsAllClosed: () => void;
 };

@@ -1,34 +1,54 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Link } from "@tanstack/react-router";
-import { Button, Divider, Flex, List } from "antd";
-import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { useSearch } from "@tanstack/react-router";
+import { Flex, List } from "antd";
+import { useEffect } from "react";
 
 import { RouteDirectoryCard } from "@/entities/RouteDirectory";
-import { RouteDirectoryFilters } from "@/features/RouteDirectory";
-import { RouteDirectoryMocks } from "@/widgets/RouteDirectory/model/RouteDirectoryMocks";
+import { getRoutesList } from "@/shared/api/handBooks/queries/getRoutes";
+import { usePagination } from "@/shared/helpers/hooks/usePagination";
+import { DEFAULT_SEARCH_PARAMS } from "@/widgets/RouteDirectory/constants/constants";
 
 export const RouteDirectoryList = () => {
-  const { t } = useTranslation("p_routeDirectory");
+  const search = useSearch({ from: "/routes" });
+
+  const { limit, skip, handleListChange, tableParams, setTableParams } =
+    usePagination({
+      path: "/routes",
+    });
+
+  const { data } = useQuery({
+    ...getRoutesList.getQueryOptions(
+      { limit: limit, skip: skip },
+      {
+        search: search.search,
+      },
+    ),
+  });
+
+  useEffect(() => {
+    if (data?.items && tableParams.pagination?.total !== data.count) {
+      setTableParams((prevState) => ({
+        ...prevState,
+        pagination: { ...prevState.pagination, total: data.count },
+      }));
+    }
+  }, [data, setTableParams, tableParams.pagination?.total]);
 
   return (
     <Flex vertical>
-      <Flex>
-        <Link to={"/create-route"}>
-          <Button icon={<PlusOutlined />} type="primary">
-            {t("addRouteButton")}
-          </Button>
-        </Link>
-      </Flex>
-
-      <Divider />
-
-      <RouteDirectoryFilters />
-
-      <Divider />
-
       <List
-        pagination={{ position: "bottom", align: "start", defaultPageSize: 5 }}
-        dataSource={RouteDirectoryMocks}
+        pagination={{
+          position: "bottom",
+          align: "start",
+          onChange: (page) =>
+            handleListChange(page, DEFAULT_SEARCH_PARAMS.limit, data?.count),
+          current:
+            tableParams.pagination?.current || DEFAULT_SEARCH_PARAMS.page,
+          pageSize:
+            tableParams.pagination?.pageSize || DEFAULT_SEARCH_PARAMS.limit,
+          total: tableParams.pagination?.total,
+        }}
+        dataSource={data?.items}
         renderItem={(item) => (
           <List.Item>
             <RouteDirectoryCard route={item} />

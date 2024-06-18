@@ -12,7 +12,7 @@ export const Waypoints = () => {
 
   const [isAllClosed, setIsAllClosed] = useState(false);
 
-  const { control, watch } = useFormContext<CreateRouteFormValues>();
+  const { control, watch, setValue } = useFormContext<CreateRouteFormValues>();
 
   const { fields, append, remove, move } = useFieldArray({
     control,
@@ -53,6 +53,7 @@ export const Waypoints = () => {
           index={index}
           remove={(index) => remove(index)}
           watch={watch}
+          setValue={setValue}
           move={move}
           length={fields.length}
           setIsAllClosed={() => setIsAllClosed(!isAllClosed)}

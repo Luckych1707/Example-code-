@@ -1,16 +1,21 @@
+import { UploadFile } from "antd";
+
 export type CreateRouteFormValues = {
   name: string;
-  city: string;
-  categories: string[];
+  cityId: string;
+  categoryId: string;
   description: string;
+  image?: { file: UploadFile; fileList: UploadFile[] };
   waypoint: {
     name: string;
     description: string;
     longitude: string;
     latitude: string;
-    material: { name: string; yer: string; description: string }[];
+    waypointImage?: { file: UploadFile; fileList: UploadFile[] };
+    audio?: { file: UploadFile; fileList: UploadFile[] };
+    material: { name: string; year: number; description: string }[];
   }[];
-  kmDuration: string;
-  hourDuration: string;
+  durationDistance: string;
+  durationTime: string;
   price: string;
 };

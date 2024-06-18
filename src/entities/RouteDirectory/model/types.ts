@@ -1,6 +1,7 @@
 import {
   Control,
   type UseFieldArrayMove,
+  UseFormSetValue,
   type UseFormWatch,
 } from "react-hook-form";
 
@@ -14,6 +15,7 @@ export type WaypointProps = {
   index: number;
   control: Control<CreateRouteFormValues> | undefined;
   remove: (index: number) => void;
+  setValue: UseFormSetValue<CreateRouteFormValues>;
   watch: UseFormWatch<CreateRouteFormValues>;
   length: number;
   move: UseFieldArrayMove;
