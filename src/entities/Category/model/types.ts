@@ -1,5 +1,7 @@
+import { CategoryResponse } from "@/shared/api/schemas";
+
 export type CategoryCardProps = {
-  category: { id: string; title: string };
+  category: CategoryResponse;
   editCategoryId: string | undefined;
   deleteCategoryId: string | undefined;
   setEditCategoryId: (id: string | undefined) => void;
@@ -7,5 +9,5 @@ export type CategoryCardProps = {
 };
 
 export type CategoryCreateFormValues = {
-  categoryName: string;
+  name: string;
 };

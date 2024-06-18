@@ -10,7 +10,7 @@ export const CategoryInfo = ({
 }: CategoryInfoProps) => {
   return (
     <Flex justify="space-between" flex="1">
-      <Typography.Text>{category.title}</Typography.Text>
+      <Typography.Text>{category.name}</Typography.Text>
       <Flex gap="16px">
         <Button
           icon={<EditFilled />}
