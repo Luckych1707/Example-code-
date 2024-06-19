@@ -1,11 +1,12 @@
 import { CloseOutlined } from "@ant-design/icons";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Drawer } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { CityEdit } from "@/features/Cities";
 import { CityInfo } from "@/features/Cities/ui/CityInfo/CityInfo";
-import { citiesMock } from "@/pages/Cities/model/citiesMock";
+import { getCity } from "@/widgets/Cities/api/queries/getCity";
 import { CityDrawerProps } from "@/widgets/Cities/model/types";
 
 export const CityDrawer = ({ selectedCity, onClose }: CityDrawerProps) => {
@@ -15,7 +16,11 @@ export const CityDrawer = ({ selectedCity, onClose }: CityDrawerProps) => {
     selectedCity.variant,
   );
 
-  const city = citiesMock.filter((item) => item.id === selectedCity.id)[0];
+  const { data } = useQuery({
+    ...getCity.getQueryOptions(selectedCity.id || ""),
+  });
+
+  if (!data) return;
 
   return (
     <Drawer
@@ -32,13 +37,18 @@ export const CityDrawer = ({ selectedCity, onClose }: CityDrawerProps) => {
     >
       {(cityVariant === "info" || cityVariant === "delete") && (
         <CityInfo
-          city={city}
+          city={data}
           setCityVariant={setCityVariant}
           cityVariant={cityVariant}
+          onClose={onClose}
         />
       )}
       {cityVariant === "edit" && (
-        <CityEdit city={city} setCityVariant={setCityVariant} />
+        <CityEdit
+          city={data}
+          setCityVariant={setCityVariant}
+          onClose={onClose}
+        />
       )}
     </Drawer>
   );

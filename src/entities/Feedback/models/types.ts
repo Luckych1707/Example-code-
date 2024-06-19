@@ -1,12 +1,6 @@
-import { FeedbackStatus } from "@/shared/types/types";
+import { FeedbackResponse } from "@/shared/api/schemas";
 
 export type FeedbackCardProps = {
-  reviews: {
-    email: string;
-    id: string;
-    date: string;
-    status: FeedbackStatus;
-    text: string;
-  };
+  reviews: FeedbackResponse;
   setFeedbackItemId: (id: string | undefined) => void;
 };

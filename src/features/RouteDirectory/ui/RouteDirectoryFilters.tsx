@@ -1,4 +1,5 @@
 import { SearchOutlined } from "@ant-design/icons";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Button, Flex } from "antd";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -7,15 +8,30 @@ import { RouteDirectoryFiltersFormValues } from "@/features/RouteDirectory/model
 import { Form } from "@/features/RouteDirectory/ui/styled";
 import { Input } from "@/shared/ui/Input";
 import { Select } from "@/shared/ui/Select";
+import { selectData } from "@/widgets/RouteDirectory/constants/constants";
 
 export const RouteDirectoryFilters = () => {
   const { t } = useTranslation(["p_routeDirectory", "glossary"]);
 
-  const { control, handleSubmit, reset } =
-    useForm<RouteDirectoryFiltersFormValues>();
+  const navigate = useNavigate({ from: "/routes" });
 
-  const handleFormSubmit = (values: RouteDirectoryFiltersFormValues) => {
-    console.log(values);
+  const search = useSearch({ from: "/routes" });
+
+  const { control, handleSubmit, reset } =
+    useForm<RouteDirectoryFiltersFormValues>({
+      defaultValues: { order: search.order },
+    });
+
+  const handleFormSubmit = async (values: RouteDirectoryFiltersFormValues) => {
+    await navigate({
+      to: "/routes",
+      search: () => ({
+        search: values.name,
+        order: values.order,
+        page: search.page,
+        limit: search.limit,
+      }),
+    });
   };
 
   return (
@@ -31,7 +47,8 @@ export const RouteDirectoryFilters = () => {
 
         <Select.Controller
           control={control}
-          name="sortField"
+          name="order"
+          options={selectData}
           label={t("filters.sortFieldLabel")}
           placeholder={t("filters.sortFieldPlaceholder")}
         />

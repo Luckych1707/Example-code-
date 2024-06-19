@@ -1,23 +1,22 @@
 import { Tag } from "antd";
+import { useTranslation } from "react-i18next";
 
-import { FeedbackStatus as FeedbackStatusType } from "@/shared/types/types";
+import { StatusProps } from "@/shared/ui/FeedbackStatus/types";
 
-type Props = {
-  status: FeedbackStatusType;
-};
+export const FeedbackStatus = ({ status }: StatusProps) => {
+  const { t } = useTranslation("glossary");
 
-export const FeedbackStatus = ({ status }: Props) => {
   switch (status) {
     case "new":
-      return <Tag color="blue">Новое</Tag>;
+      return <Tag color="blue">{t("status.new")}</Tag>;
 
     case "processed":
-      return <Tag color="green">Обработано</Tag>;
+      return <Tag color="green">{t("status.processed")}</Tag>;
 
     case "viewed":
-      return <Tag color="orange">Просмотрено</Tag>;
+      return <Tag color="orange">{t("status.viewed")}</Tag>;
 
     default:
-      return <Tag color="orange">Просмотрено</Tag>;
+      return <Tag color="orange">{t("status.viewed")}</Tag>;
   }
 };

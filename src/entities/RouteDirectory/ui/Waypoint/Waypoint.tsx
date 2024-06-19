@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { Material } from "@/entities/RouteDirectory";
 import { WaypointProps } from "@/entities/RouteDirectory/model/types";
 import { Input } from "@/shared/ui/Input";
-import { Upload } from "@/shared/ui/Upload/Upload";
+import { Upload } from "@/shared/ui/Upload";
 
 export const Waypoint = ({
   waypoint,
@@ -21,6 +21,7 @@ export const Waypoint = ({
   control,
   remove,
   watch,
+  setValue,
   move,
   length,
   setIsAllClosed,
@@ -31,6 +32,8 @@ export const Waypoint = ({
   const [isOpen, setIsOpen] = useState(true);
 
   const waypointName = watch(`waypoint.${index}.name`);
+  const image = watch(`waypoint.${index}.waypointImage`);
+  const audio = watch(`waypoint.${index}.audio`);
 
   useEffect(() => {
     setIsOpen(!isAllClosed);
@@ -110,10 +113,39 @@ export const Waypoint = ({
             placeholder={t("field.waypoint.field.namePlaceholder")}
           />
 
-          <Flex gap="286px">
-            <Upload label={t("field.waypoint.field.photoLabel")} />
+          <Flex justify="start" gap="8px">
+            <Upload.Controller
+              control={control}
+              name={`waypoint.${index}.waypointImage`}
+              label={t("field.waypoint.field.photoLabel")}
+              secondaryLabel={t("field.filesSecondaryLabel")}
+              width={100}
+              height={100}
+              canClear
+              maxFileLength={5}
+              reset={(value) =>
+                image &&
+                setValue(`waypoint.${index}.waypointImage`, {
+                  file: image.file,
+                  fileList: image.fileList.filter((item) => item.uid !== value),
+                })
+              }
+            />
 
-            <Upload label={t("field.waypoint.field.audioLabel")} />
+            <Upload.Controller
+              control={control}
+              name={`waypoint.${index}.audio`}
+              label={t("field.waypoint.field.audioLabel")}
+              accept="audio/*"
+              canClear
+              reset={(value) =>
+                audio &&
+                setValue(`waypoint.${index}.audio`, {
+                  file: audio.file,
+                  fileList: audio.fileList.filter((item) => item.uid !== value),
+                })
+              }
+            />
           </Flex>
 
           <Input.TextArea.Controller

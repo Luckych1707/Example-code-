@@ -1,4 +1,4 @@
 export const selectData = [
-  { label: "Сначала новые", value: "new" },
-  { label: "Сначала старые", value: "old" },
+  { label: "Сначала новые", value: "asc" },
+  { label: "Сначала старые", value: "desc" },
 ];

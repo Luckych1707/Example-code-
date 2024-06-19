@@ -1,4 +1,5 @@
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { DownOutlined, FileFilled, UpOutlined } from "@ant-design/icons";
+import { Link } from "@tanstack/react-router";
 import { Button, Divider, Flex, Image, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -65,11 +66,11 @@ export const Waypoint = ({
               </Typography.Text>
 
               <Flex gap="16px">
-                {item?.photoFiles.map((item) => (
+                {item?.attachments.map((item) => (
                   <Image
                     width={150}
                     height={150}
-                    src={item}
+                    src={item.uri}
                     style={{ borderRadius: "8px" }}
                   />
                 ))}
@@ -81,10 +82,13 @@ export const Waypoint = ({
                 {t("field.waypoint.field.audioLabel")}
               </Typography.Text>
 
-              <Flex gap="16px" vertical>
-                {item?.audioFiles.map((item) => (
-                  <Typography.Text>{item}</Typography.Text>
-                ))}
+              <Flex gap="8px">
+                <FileFilled />
+                <Link to={item.audio.uri}>
+                  <Typography.Text style={{ color: "#1677FF" }}>
+                    {item?.audio.name}
+                  </Typography.Text>
+                </Link>
               </Flex>
             </Flex>
           </Flex>
@@ -122,12 +126,12 @@ export const Waypoint = ({
               {t("field.waypoint.material.title")}
             </Typography.Title>
 
-            {item.material.map((item) => (
+            {item.materials.map((item) => (
               <Flex vertical gap="12px">
                 <Flex gap="12px">
                   <Typography.Text>{item.name}</Typography.Text>
 
-                  <Typography.Text>{item.yer}</Typography.Text>
+                  <Typography.Text>{item.year}</Typography.Text>
                 </Flex>
 
                 <Typography.Text type="secondary">

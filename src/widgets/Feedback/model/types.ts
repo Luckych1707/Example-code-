@@ -1,4 +1,4 @@
-import { FeedbackStatus } from "@/shared/types/types";
+import { FeedbackStatus } from "@/shared/api/schemas";
 
 export type FeedbackItemDrawerType = {
   email: string;
@@ -20,7 +20,7 @@ export type FiltersFormValues = {
   new: boolean;
   viewed: boolean;
   processed: boolean;
-  date: string;
+  order: string;
 };
 
 export type ListProps = {

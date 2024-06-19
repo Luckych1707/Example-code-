@@ -1,5 +1,7 @@
+import { CategoryResponse } from "@/shared/api/schemas";
+
 export type CategoryDeleteProps = {
-  category: { id: string; title: string };
+  category: CategoryResponse;
   setDeleteCategoryId: (id: string | undefined) => void;
 };
 
@@ -8,12 +10,12 @@ export type CategoryEditFormValues = {
 };
 
 export type CategoryEditProps = {
-  category: { id: string; title: string };
+  category: CategoryResponse;
   setEditCategoryId: (id: string | undefined) => void;
 };
 
 export type CategoryInfoProps = {
-  category: { id: string; title: string };
+  category: CategoryResponse;
   setEditCategoryId: (id: string | undefined) => void;
   setDeleteCategoryId: (id: string | undefined) => void;
 };

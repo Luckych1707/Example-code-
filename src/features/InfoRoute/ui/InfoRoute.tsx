@@ -1,22 +1,45 @@
+import { useQuery } from "@tanstack/react-query";
 import { useMatch } from "@tanstack/react-router";
 import { Button, Divider, Flex, Image, Typography } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Waypoint } from "@/entities/InfoRoute/ui";
-import { InfoRouteMock } from "@/pages/InfoRoute/model/mock";
+import { getCategory } from "@/widgets/Category/api/queries/getCategory";
+import { getCity } from "@/widgets/Cities/api/queries/getCity";
+import { getRoute } from "@/widgets/RouteDirectory/api/getRoute";
+import { getWaypointsList } from "@/widgets/RouteDirectory/api/getWaypointsList";
 
 export const InfoRoute = () => {
   const { t } = useTranslation(["p_createRoute", "glossary"]);
 
   const { params } = useMatch({ from: "/info-route/$id" });
 
-  const route = InfoRouteMock.find((item) => item.id === params.id);
+  const { data: route } = useQuery({
+    ...getRoute.getQueryOptions(params.id),
+  });
+
+  const { data: waypointsList } = useQuery({
+    ...getWaypointsList.getQueryOptions(
+      { limit: 99999, skip: 0 },
+      { filters: { routeId: params.id } },
+    ),
+  });
+
+  const { data: city } = useQuery({
+    ...getCity.getQueryOptions(route?.cityId || ""),
+    enabled: !!route,
+  });
+
+  const { data: category } = useQuery({
+    ...getCategory.getQueryOptions(route?.categoryId || ""),
+    enabled: !!route,
+  });
 
   const [isAllClosed, setIsAllClosed] = useState(false);
 
   return (
-    <Flex vertical gap="16px">
+    <Flex vertical gap="16px" style={{ width: "800px" }}>
       <Flex vertical>
         <Typography.Paragraph type="secondary" style={{ margin: 0 }}>
           {t("field.nameLabel")}
@@ -31,7 +54,7 @@ export const InfoRoute = () => {
             {t("field.cityLabel")}
           </Typography.Paragraph>
 
-          <Typography.Text>{route?.city}</Typography.Text>
+          <Typography.Text>{city?.name}</Typography.Text>
         </Flex>
 
         <Flex vertical>
@@ -39,7 +62,7 @@ export const InfoRoute = () => {
             {t("field.categoryLabel")}
           </Typography.Paragraph>
 
-          <Typography.Text>{route?.category}</Typography.Text>
+          <Typography.Text>{category?.name}</Typography.Text>
         </Flex>
       </Flex>
 
@@ -49,14 +72,12 @@ export const InfoRoute = () => {
         </Typography.Paragraph>
 
         <Flex gap="16px">
-          {route?.files.map((item) => (
-            <Image
-              width={150}
-              height={150}
-              src={item}
-              style={{ borderRadius: "8px" }}
-            />
-          ))}
+          <Image
+            width={150}
+            height={150}
+            src={route?.attachment.uri}
+            style={{ borderRadius: "8px" }}
+          />
         </Flex>
       </Flex>
 
@@ -84,7 +105,7 @@ export const InfoRoute = () => {
         </Button>
       </Flex>
 
-      {route?.waypoint.map((item, index) => (
+      {waypointsList?.items.map((item, index) => (
         <Waypoint
           item={item}
           index={index}
@@ -101,7 +122,7 @@ export const InfoRoute = () => {
             {t("field.kmDurationLabel")}
           </Typography.Paragraph>
 
-          <Typography.Text>{route?.kmDuration}</Typography.Text>
+          <Typography.Text>{route?.durationDistance}</Typography.Text>
         </Flex>
 
         <Flex vertical>
@@ -109,7 +130,7 @@ export const InfoRoute = () => {
             {t("field.hourDurationLabel")}
           </Typography.Paragraph>
 
-          <Typography.Text>{route?.hourDuration}</Typography.Text>
+          <Typography.Text>{route?.durationTime}</Typography.Text>
         </Flex>
       </Flex>
 

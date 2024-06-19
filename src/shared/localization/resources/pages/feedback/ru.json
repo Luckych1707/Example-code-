@@ -7,7 +7,7 @@
     "statusesLabels": {
       "new": "Новые",
       "processed": "Обработанные",
-      "viewed": "Новые"
+      "viewed": "Просмотренные"
     }
   },
   "feedbackItemDrawer": {

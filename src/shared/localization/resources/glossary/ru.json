@@ -1,10 +1,16 @@
 {
   "mainTitle": "RussGuide",
+  "status": {
+    "new": "Новое",
+    "processed": "Обработано",
+    "viewed": "Просмотрено"
+  },
   "morphemes": {
     "km": "км",
     "hours": "час(ов)",
     "rubles": "₽",
-    "lattice": "#{{ key }}"
+    "lattice": "#{{ key }}",
+    "yer": "{{ key }} г."
   },
   "actions": {
     "addButton": "Добавить",
