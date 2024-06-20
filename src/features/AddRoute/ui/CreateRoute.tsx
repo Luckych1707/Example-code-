@@ -19,7 +19,7 @@ import { Upload } from "@/shared/ui/Upload";
 const CreateRoute = () => {
   const { t } = useTranslation(["p_createRoute", "glossary"]);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate({ from: "/create-route" });
 
   const { data: cityOptions } = useQuery({
     ...getCitiesList.getQueryOptions({
@@ -61,8 +61,16 @@ const CreateRoute = () => {
 
   const createWaypointsMutation = useMutation({
     ...createWaypoints.getMutationOptions(),
-    onSuccess: () => {
-      navigate({ to: "/routes" });
+    onSuccess: async () => {
+      await navigate({
+        to: "/routes",
+        search: () => ({
+          search: undefined,
+          order: undefined,
+          page: undefined,
+          limit: undefined,
+        }),
+      });
     },
   });
 
