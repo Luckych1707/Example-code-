@@ -30,19 +30,15 @@ const directoryRoute = createRoute({
   path: "/routes",
   component: () => <RouteDirectory />,
   validateSearch: (search?: Record<string, unknown>) => {
-    if (!search) {
-      return {};
-    }
-
     const order = includes(["asc", "desc"], search?.order)
       ? search?.order
       : "asc";
 
     return {
-      search: search?.search as string,
-      order: order as string,
-      page: (search?.page as number) || 1,
-      limit: (search?.limit as number) || 5,
+      search: (search?.search as string) || undefined,
+      order: (order as string) || undefined,
+      page: (search?.page as number) || 1 || undefined,
+      limit: (search?.limit as number) || 5 || undefined,
     };
   },
 });

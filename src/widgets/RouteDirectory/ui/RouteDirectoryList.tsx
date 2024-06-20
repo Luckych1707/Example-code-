@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import { RouteDirectoryCard } from "@/entities/RouteDirectory";
 import { getRoutesList } from "@/shared/api/handBooks/queries/getRoutes";
+import { SortOrders } from "@/shared/api/schemas";
 import { usePagination } from "@/shared/helpers/hooks/usePagination";
 import { DEFAULT_SEARCH_PARAMS } from "@/widgets/RouteDirectory/constants/constants";
 
@@ -18,7 +19,7 @@ export const RouteDirectoryList = () => {
 
   const { data } = useQuery({
     ...getRoutesList.getQueryOptions(
-      { limit: limit, skip: skip },
+      { limit: limit, skip: skip, order: search.order as SortOrders },
       {
         search: search.search,
       },
