@@ -1,6 +1,12 @@
 {
   "title": "Добавление маршрута",
   "addWaypointButton": "Добавить точку",
+  "deleteRoutePopconfirm": {
+    "title": "Удаление маршрута",
+    "description": "Вы действительно хотите удалить маршрут?",
+    "okText": "Удалить",
+    "cancelText": "Отменить"
+  },
   "field": {
     "nameLabel": "Название",
     "namePlaceholder": "Введите название",

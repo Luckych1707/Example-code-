@@ -7,11 +7,12 @@ export interface UploadControllerProps<
   accept?: string;
   label?: string;
   uri?: string[];
+  audio?: { name: string; uri: string };
   secondaryLabel?: string;
   listType?: "text" | "picture" | "picture-card" | "picture-circle";
   maxFileLength?: number;
   canClear?: boolean;
-  reset?: (value?: string) => void;
+  reset?: (value?: { uid: string; uriPreview?: string }) => void;
   width?: number;
   height?: number;
 }

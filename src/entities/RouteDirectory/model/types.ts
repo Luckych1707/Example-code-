@@ -6,9 +6,6 @@ import {
 } from "react-hook-form";
 
 import { CreateRouteFormValues } from "@/features/AddRoute/model/types";
-import { RouteDirectoryType } from "@/widgets/RouteDirectory/model/types";
-
-export type RouteDirectoryCardProps = { route: RouteDirectoryType };
 
 export type WaypointProps = {
   waypoint: Record<"id", string>;
@@ -20,7 +17,6 @@ export type WaypointProps = {
   length: number;
   move: UseFieldArrayMove;
   isAllClosed: boolean;
-  setIsAllClosed: () => void;
 };
 
 export type MaterialProps = {

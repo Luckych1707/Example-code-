@@ -1,10 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import { useMatch } from "@tanstack/react-router";
-import { Button, Divider, Flex, Image, Typography } from "antd";
+import { WarningTwoTone } from "@ant-design/icons";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMatch, useNavigate } from "@tanstack/react-router";
+import { Button, Divider, Flex, Image, Popconfirm, Typography } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { deleteRoute } from "@/entities/EditRoute/api/deleteRoute";
 import { Waypoint } from "@/entities/InfoRoute/ui";
+import { getRoutesList } from "@/shared/api/handBooks/queries/getRoutes";
 import { getCategory } from "@/widgets/Category/api/queries/getCategory";
 import { getCity } from "@/widgets/Cities/api/queries/getCity";
 import { getRoute } from "@/widgets/RouteDirectory/api/getRoute";
@@ -12,6 +15,10 @@ import { getWaypointsList } from "@/widgets/RouteDirectory/api/getWaypointsList"
 
 export const InfoRoute = () => {
   const { t } = useTranslation(["p_createRoute", "glossary"]);
+
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate({ from: "/info-route/$id" });
 
   const { params } = useMatch({ from: "/info-route/$id" });
 
@@ -35,6 +42,20 @@ export const InfoRoute = () => {
     ...getCategory.getQueryOptions(route?.categoryId || ""),
     enabled: !!route,
   });
+
+  const deleteRouteMutation = useMutation({
+    ...deleteRoute.getMutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getRoutesList.queryName],
+      });
+      navigate({ to: "/routes" });
+    },
+  });
+
+  const handeDeleteRoute = () => {
+    deleteRouteMutation.mutate(route?.id || "");
+  };
 
   const [isAllClosed, setIsAllClosed] = useState(false);
 
@@ -145,11 +166,24 @@ export const InfoRoute = () => {
       <Divider style={{ margin: 0 }} />
 
       <Flex gap="12px" justify="flex-end">
-        <Button type="primary" htmlType="submit">
+        <Button
+          type="primary"
+          onClick={() => navigate({ to: `/edit-route/${route?.id}` })}
+        >
           {t("glossary:actions.editButton")}
         </Button>
 
-        <Button danger>{t("glossary:actions.deleteButton")}</Button>
+        <Popconfirm
+          title={t("deleteRoutePopconfirm.title")}
+          description={t("deleteRoutePopconfirm.description")}
+          okText={t("deleteRoutePopconfirm.okText")}
+          cancelText={t("deleteRoutePopconfirm.cancelText")}
+          okButtonProps={{ danger: true }}
+          icon={<WarningTwoTone twoToneColor="#F5222D" />}
+          onConfirm={handeDeleteRoute}
+        >
+          <Button danger>{t("glossary:actions.deleteButton")}</Button>
+        </Popconfirm>
       </Flex>
     </Flex>
   );

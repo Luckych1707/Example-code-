@@ -84,6 +84,15 @@ export interface BodySetFeedbackAnswerApiV1FeedbacksFeedbackIdAnswerPost {
   answer: string;
 }
 
+/** Body_set_route_as_complete_api_v1_routes_complete_post */
+export interface BodySetRouteAsCompleteApiV1RoutesCompletePost {
+  /**
+   * Route Id
+   * @format uuid
+   */
+  route_id: string;
+}
+
 /** Body_update_refresh_token_api_v1_auth_refresh_post */
 export interface BodyUpdateRefreshTokenApiV1AuthRefreshPost {
   /** Refresh Token */
@@ -153,6 +162,8 @@ export interface CityResponse {
    */
   createdAt: string;
   image: AttachmentResponse;
+  /** Routecount */
+  routeCount: number;
 }
 
 /** CityUpdateRequest */
@@ -408,6 +419,10 @@ export interface RouteUpdateRequest {
 export interface RouteWhere {
   /** Cityname */
   cityName?: string[] | string | null;
+  /** Cityid */
+  cityId?: string[] | string | null;
+  /** Categoryid */
+  categoryId?: string[] | string | null;
   /** Status */
   status?: RouteStatus[] | RouteStatus | null;
 }
@@ -782,12 +797,51 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title RusGuide
- * @version 0.12.2
+ * @version 0.13.0
  *
  *
  * RusGuide Server
  *
  * ## Changelog
+ * ### 0.13.0
+ *
+ * - **feat** complete route
+ *
+ * ### 0.12.10
+ *
+ * - **fix** route/waypoint delete command
+ *
+ * ### 0.12.9
+ *
+ * - **test** get-me and change-password tests
+ *
+ * ### 0.12.8
+ *
+ * - **fix** route filters
+ * - **fix** city route count field
+ *
+ * ### 0.12.7
+ *
+ * - **fix** update waypoint attachments
+ *
+ * ### 0.12.6
+ *
+ * - **fix** update waypoint batch validation error
+ *
+ * ### 0.12.5
+ *
+ * - **fix** waypoint coordinate type
+ * - **fix** update waypoint batch
+ * - **fix** create waypoint batch without materials
+ *
+ * ### 0.12.4
+ *
+ * - **fix** route list error
+ *
+ * ### 0.12.3
+ *
+ * - **fix** waypoint attachment on batch creation
+ *
  * ### 0.12.2
  *
  * - **fix** route list filtering/ordering
@@ -818,56 +872,7 @@ export class HttpClient<SecurityDataType = unknown> {
  *
  * - **feat** create and retrieve waypoints and routes
  *
- * ### 0.8.2
- *
- * - **fix** handle integrity_violation error
- * - **fix** feedback filters schema validation
- *
- * ### 0.8.1
- *
- * - **fix** feedback `status` field on list response
- *
- * ### 0.8.0
- *
- * - **feat** categories
- *
- * ### 0.7.2
- *
- * - **fix** google redirect_uri
- *
- * ### 0.7.1
- *
- * - **fix** s3 bucket name
- *
- * ### 0.7.0
- *
- * - **feat**: cities
- *
- * ### 0.6.0
- *
- * - **feat**: feedbacks
- *
- * ### 0.5.0
- *
- * - **feat**: attachments
- *
- * ### 0.4.1
- *
- * - **feat** create superuser on application startup
- *
- * ### 0.4.0
- *
- * - **feat**: authentication by google
- *
- * ### 0.3.0
- *
- * - **feat** permissions
- *
- * ### 0.2.0
- *
- * - **feat** authentication flow
- *
- *
+ * ###
  *
  * > See full changelog in repository "src" dir
  */
@@ -1472,6 +1477,81 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags routes
+     * @name DeleteWaypointApiV1RoutesRouteIdDelete
+     * @summary Delete Waypoint
+     * @request DELETE:/api/v1/routes/{route_id}
+     * @secure
+     */
+    deleteWaypointApiV1RoutesRouteIdDelete: (routeId: string, params: RequestParams = {}) =>
+      this.request<void, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/routes/${routeId}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags routes
+     * @name RetrieveCompleteRouteListApiV1RoutesCompleteGet
+     * @summary Retrieve Complete Route List
+     * @request GET:/api/v1/routes/complete
+     * @secure
+     */
+    retrieveCompleteRouteListApiV1RoutesCompleteGet: (
+      query?: {
+        /**
+         * Skip
+         * @default 0
+         */
+        skip?: number;
+        /**
+         * Limit
+         * @default 100
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        CountPaginationResultsRouteResponse,
+        AuthApiError | SimpleApiError | ValidationError | HTTPValidationError
+      >({
+        path: `/api/v1/routes/complete`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags routes
+     * @name SetRouteAsCompleteApiV1RoutesCompletePost
+     * @summary Set Route As Complete
+     * @request POST:/api/v1/routes/complete
+     * @secure
+     */
+    setRouteAsCompleteApiV1RoutesCompletePost: (
+      data: BodySetRouteAsCompleteApiV1RoutesCompletePost,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/routes/complete`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags routes
      * @name RetrieveRouteListApiV1RoutesListPost
      * @summary Retrieve Route List
      * @request POST:/api/v1/routes/list
@@ -1663,6 +1743,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         secure: true,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags waypoints
+     * @name DeleteWaypointApiV1WaypointsWaypointIdDelete
+     * @summary Delete Waypoint
+     * @request DELETE:/api/v1/waypoints/{waypoint_id}
+     * @secure
+     */
+    deleteWaypointApiV1WaypointsWaypointIdDelete: (waypointId: string, params: RequestParams = {}) =>
+      this.request<void, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/waypoints/${waypointId}`,
+        method: "DELETE",
+        secure: true,
         ...params,
       }),
   };

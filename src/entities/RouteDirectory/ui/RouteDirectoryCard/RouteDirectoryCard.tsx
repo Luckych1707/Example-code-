@@ -4,23 +4,42 @@ import {
   DeleteFilled,
   EditFilled,
 } from "@ant-design/icons";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Button, Flex, Image, Tag, Typography } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { deleteRoute } from "@/entities/EditRoute/api/deleteRoute";
+import { getRoutesList } from "@/shared/api/handBooks/queries/getRoutes";
 import { RouteResponse } from "@/shared/api/schemas";
 import { getCity } from "@/widgets/Cities/api/queries/getCity";
 
 export const RouteDirectoryCard = ({ route }: { route: RouteResponse }) => {
   const { t } = useTranslation("p_routeDirectory");
 
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
+
   const [isDeleted, seiIsDeleted] = useState<string>();
 
   const { data } = useQuery({
     ...getCity.getQueryOptions(route.cityId || ""),
   });
+
+  const deleteRouteMutation = useMutation({
+    ...deleteRoute.getMutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getRoutesList.queryName],
+      });
+    },
+  });
+
+  const handeDeleteRoute = () => {
+    deleteRouteMutation.mutate(route?.id || "");
+  };
 
   return (
     <Flex vertical style={{ width: "100%" }}>
@@ -70,7 +89,13 @@ export const RouteDirectoryCard = ({ route }: { route: RouteResponse }) => {
         <Flex align="center">
           {!!isDeleted ? (
             <Flex gap="16px">
-              <Button icon={<DeleteFilled />} type="primary" ghost danger />
+              <Button
+                icon={<DeleteFilled />}
+                type="primary"
+                ghost
+                danger
+                onClick={handeDeleteRoute}
+              />
 
               <Button
                 icon={<CloseOutlined />}
@@ -79,7 +104,14 @@ export const RouteDirectoryCard = ({ route }: { route: RouteResponse }) => {
             </Flex>
           ) : (
             <Flex gap="16px">
-              <Button icon={<EditFilled />} type="primary" ghost />
+              <Button
+                icon={<EditFilled />}
+                type="primary"
+                ghost
+                onClick={() =>
+                  navigate({ to: "/edit-route/$id", params: { id: route.id } })
+                }
+              />
 
               <Button
                 icon={<DeleteFilled />}

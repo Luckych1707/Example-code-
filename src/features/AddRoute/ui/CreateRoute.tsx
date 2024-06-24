@@ -47,7 +47,9 @@ const CreateRoute = () => {
 
   const methods = useForm<CreateRouteFormValues>({
     defaultValues: {
-      waypoint: [{ name: "", description: "", longitude: "", latitude: "" }],
+      waypoint: [
+        { name: "", description: "", longitude: "", latitude: "", order: 0 },
+      ],
     },
   });
   const image = methods.watch("image");
@@ -181,7 +183,9 @@ const CreateRoute = () => {
             image &&
             methods.setValue("image", {
               file: image.file,
-              fileList: image.fileList.filter((item) => item.uid !== value),
+              fileList: image.fileList.filter(
+                (item) => item.uid !== value?.uid,
+              ),
             })
           }
         />

@@ -25,6 +25,7 @@ export const UploadController = <
   accept = "image/*",
   listType = "picture-card",
   uri,
+  audio,
   maxFileLength = 1,
   canClear = false,
   reset,
@@ -35,7 +36,13 @@ export const UploadController = <
   const { t } = useTranslation("glossary");
 
   const [previewImage, setPreviewImage] = useState<string[]>(uri || []);
-  const [previewAudio, setPreviewAudio] = useState<UploadFile>();
+  const [previewAudio, setPreviewAudio] = useState<
+    | {
+        name: string;
+        uri: string;
+      }
+    | undefined
+  >(audio);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handleGetPreview: UploadProps["onChange"] = async ({
@@ -49,7 +56,10 @@ export const UploadController = <
       setFileList(newFileList);
 
       if (item.type?.split("/")[0] === "audio") {
-        setPreviewAudio(item);
+        setPreviewAudio({
+          name: item.name,
+          uri: item.url || (item.preview as string),
+        });
       } else {
         item.preview &&
           !previewImage.includes(item.preview) &&
@@ -143,9 +153,12 @@ export const UploadController = <
                           previewImage.filter((it) => item !== it),
                         );
                         reset &&
-                          reset(
-                            fileList?.find((it) => it?.preview === item)?.uid,
-                          );
+                          reset({
+                            uid:
+                              fileList?.find((it) => it?.preview === item)
+                                ?.uid || "",
+                            uriPreview: previewImage?.find((it) => it === item),
+                          });
                       }}
                     >
                       {t("glossary:actions.deleteButton")}
@@ -174,11 +187,14 @@ export const UploadController = <
               onClick={(event) => {
                 event.stopPropagation();
                 setPreviewAudio(undefined);
+
                 reset &&
-                  reset(
-                    fileList?.find((it) => it?.name === previewAudio?.name)
-                      ?.uid,
-                  );
+                  reset({
+                    uid:
+                      fileList?.find((it) => it?.name === previewAudio?.name)
+                        ?.uid || "",
+                    uriPreview: previewAudio?.uri,
+                  });
               }}
             >
               {t("glossary:actions.deleteButton")}

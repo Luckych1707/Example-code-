@@ -24,7 +24,6 @@ export const Waypoint = ({
   setValue,
   move,
   length,
-  setIsAllClosed,
   isAllClosed,
 }: WaypointProps) => {
   const { t } = useTranslation(["p_createRoute", "glossary"]);
@@ -33,7 +32,9 @@ export const Waypoint = ({
 
   const waypointName = watch(`waypoint.${index}.name`);
   const image = watch(`waypoint.${index}.waypointImage`);
+  const imagePreview = watch(`waypoint.${index}.waypointImagePreview`);
   const audio = watch(`waypoint.${index}.audio`);
+  const audioPreview = watch(`waypoint.${index}.audioPreview`);
 
   useEffect(() => {
     setIsOpen(!isAllClosed);
@@ -57,7 +58,6 @@ export const Waypoint = ({
             type="text"
             onClick={() => {
               setIsOpen(!isOpen);
-              setIsAllClosed();
             }}
           />
           <Typography.Title level={5}>
@@ -75,13 +75,21 @@ export const Waypoint = ({
             icon={<ArrowUpOutlined />}
             type="text"
             disabled={index === 0}
-            onClick={() => move(index, index - 1)}
+            onClick={() => {
+              setValue(`waypoint.${index}.order`, index - 1);
+              setValue(`waypoint.${index - 1}.order`, index);
+              move(index, index - 1);
+            }}
           />
           <Button
             icon={<ArrowDownOutlined />}
             type="text"
             disabled={index === length - 1}
-            onClick={() => move(index, index + 1)}
+            onClick={() => {
+              setValue(`waypoint.${index}.order`, index + 1);
+              setValue(`waypoint.${index + 1}.order`, index);
+              move(index, index + 1);
+            }}
           />
 
           <Divider type="vertical" style={{ height: "100%" }} />
@@ -123,13 +131,24 @@ export const Waypoint = ({
               height={100}
               canClear
               maxFileLength={5}
-              reset={(value) =>
+              uri={imagePreview?.map((item) => item.uri)}
+              reset={(value) => {
                 image &&
-                setValue(`waypoint.${index}.waypointImage`, {
-                  file: image.file,
-                  fileList: image.fileList.filter((item) => item.uid !== value),
-                })
-              }
+                  setValue(`waypoint.${index}.waypointImage`, {
+                    file: image.file,
+                    fileList: image.fileList.filter(
+                      (item) => item.uid !== value?.uid,
+                    ),
+                  });
+
+                imagePreview &&
+                  setValue(
+                    `waypoint.${index}.waypointImagePreview`,
+                    imagePreview?.filter(
+                      (item) => item.uri !== value?.uriPreview,
+                    ),
+                  );
+              }}
             />
 
             <Upload.Controller
@@ -137,14 +156,17 @@ export const Waypoint = ({
               name={`waypoint.${index}.audio`}
               label={t("field.waypoint.field.audioLabel")}
               accept="audio/*"
+              audio={audioPreview}
               canClear
-              reset={(value) =>
+              reset={(value) => {
                 audio &&
-                setValue(`waypoint.${index}.audio`, {
-                  file: audio.file,
-                  fileList: audio.fileList.filter((item) => item.uid !== value),
-                })
-              }
+                  setValue(`waypoint.${index}.audio`, {
+                    file: audio.file,
+                    fileList: audio.fileList.filter(
+                      (item) => item.uid !== value?.uid,
+                    ),
+                  });
+              }}
             />
           </Flex>
 
