@@ -7,13 +7,16 @@ import { useTranslation } from "react-i18next";
 import { Waypoint } from "@/entities/RouteDirectory";
 import { CreateRouteFormValues } from "@/features/AddRoute/model/types";
 
-export const Waypoints = () => {
+type Props = {
+  setDeletedWaypoints?: (value: string) => void;
+};
+
+export const Waypoints = ({ setDeletedWaypoints }: Props) => {
   const { t } = useTranslation("p_createRoute");
 
   const [isAllClosed, setIsAllClosed] = useState(false);
-
   const { control, watch, setValue } = useFormContext<CreateRouteFormValues>();
-
+  const waypoint = watch(`waypoint`);
   const { fields, append, remove, move } = useFieldArray({
     control,
     name: "waypoint",
@@ -22,6 +25,8 @@ export const Waypoints = () => {
   const handleAddWaypoint = () => {
     setIsAllClosed(false);
     append({
+      waypointId: "",
+      order: fields.length,
       name: "",
       description: "",
       longitude: "",
@@ -51,12 +56,18 @@ export const Waypoints = () => {
           waypoint={item}
           control={control}
           index={index}
-          remove={(index) => remove(index)}
+          remove={(index) => {
+            remove(index);
+            setDeletedWaypoints &&
+              setDeletedWaypoints(
+                waypoint.find((it) => it.waypointId === item.waypointId)
+                  ?.waypointId || "",
+              );
+          }}
           watch={watch}
           setValue={setValue}
           move={move}
           length={fields.length}
-          setIsAllClosed={() => setIsAllClosed(!isAllClosed)}
           isAllClosed={isAllClosed}
         />
       ))}

@@ -49,4 +49,10 @@ export const navConfig = [
     show: false,
     back: true,
   },
+  {
+    title: "Редактирование маршруа",
+    link: "/edit-route",
+    show: false,
+    back: true,
+  },
 ];

@@ -9,6 +9,7 @@ import includes from "lodash/includes";
 import Calendar from "@/pages/Calendar";
 import Cities from "@/pages/Cities";
 import AddRoute from "@/pages/CreateRoute";
+import EditRoutePage from "@/pages/EditRoute/ui/EditRoutePage";
 import Feedback from "@/pages/Feedback";
 import RouteInformation from "@/pages/InfoRoute";
 import RouteDirectory from "@/pages/RouteDirectory";
@@ -93,6 +94,11 @@ const infoRouteRoute = createRoute({
   path: "/info-route/$id",
   component: () => <RouteInformation />,
 });
+const editRouteRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/edit-route/$id",
+  component: () => <EditRoutePage />,
+});
 
 const routeTree = rootRoute.addChildren([
   emptyRoute,
@@ -103,6 +109,7 @@ const routeTree = rootRoute.addChildren([
   feedbackRoute,
   createRouteRoute,
   infoRouteRoute,
+  editRouteRoute,
 ]);
 
 export const router = createRouter({ routeTree });
