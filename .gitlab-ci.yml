@@ -8,9 +8,18 @@ stages:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "develop"
       variables:
         ENVIRONMENT: develop
+    - if: $CI_COMMIT_BRANCH == "stage"
+      variables:
+        ENVIRONMENT: stage
+    - if: $CI_COMMIT_BRANCH == "demo"
+      variables:
+        ENVIRONMENT: demo
+    - if: $CI_COMMIT_BRANCH == "prod"
+      variables:
+        ENVIRONMENT: prod
     - when: always
 
 stage_build:
@@ -19,9 +28,9 @@ stage_build:
   tags:
     - new_runner
   script:
-    - npm install
-    - npm run build
-
+    - echo "$ENV" > ".env"
+    - yarn install
+    - yarn build
   artifacts:
     name: $CI_PROJECT_NAME
     expire_in: 1 week
@@ -33,9 +42,14 @@ stage_deploy:
   environment: $ENVIRONMENT
   rules:
     - if: $CI_COMMIT_BRANCH == "develop"
-      when: always  
+      when: always
+    - if: $CI_COMMIT_BRANCH == "stage"
+      when: always
+    - if: $CI_COMMIT_BRANCH == "demo"
+      when: manual
+    - if: $CI_COMMIT_BRANCH == "prod"
+      when: manual
   tags:
     - new_runner
   script:
-    - whoami
     - rsync -avh ./dist/* $REMOTE_ADDRESS:$REMOTE_DIR --delete
