@@ -4,6 +4,6 @@ export const DEFAULT_SEARCH_PARAMS = {
 };
 
 export const selectData = [
-  { label: "Сначала новые", value: "asc" },
-  { label: "Сначала старые", value: "desc" },
+  { label: "Сначала новые", value: "desc" },
+  { label: "Сначала старые", value: "asc" },
 ];

@@ -11,7 +11,7 @@ import { FiltersFormValues } from "@/widgets/Feedback/model/types";
 import { Form } from "./styled";
 
 export const Filters = () => {
-  const { t } = useTranslation("p_feedback");
+  const { t } = useTranslation(["p_feedback", "glossary"]);
 
   const navigate = useNavigate({ from: "/feedback" });
 
@@ -81,7 +81,9 @@ export const Filters = () => {
             {t("filters.submit")}
           </Button>
 
-          <Button onClick={() => reset()}>{t("filters.reset")}</Button>
+          <Button onClick={() => reset()}>
+            {t("glossary:actions.resetButton")}
+          </Button>
         </Flex>
       </Form>
 
