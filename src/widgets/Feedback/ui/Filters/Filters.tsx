@@ -78,7 +78,7 @@ export const Filters = () => {
 
         <Flex justify="flex-end" gap="12px">
           <Button type="primary" htmlType="submit">
-            {t("filters.submit")}
+            {t("glossary:actions.submitButton")}
           </Button>
 
           <Button onClick={() => reset()}>
