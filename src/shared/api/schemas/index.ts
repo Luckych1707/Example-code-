@@ -122,13 +122,13 @@ export interface CategoryResponse {
 export interface CityCreate {
   /**
    * Name
-   * @maxLength 100
+   * @pattern ^[а-яА-Я\s\-]{1,100}$
    */
   name: string;
   /**
    * Description
    * @minLength 1
-   * @maxLength 100
+   * @maxLength 1000
    */
   description: string;
   /**
@@ -141,21 +141,14 @@ export interface CityCreate {
 /** CityResponse */
 export interface CityResponse {
   /**
-   * Name
-   * @maxLength 100
-   */
-  name: string;
-  /**
-   * Description
-   * @minLength 1
-   * @maxLength 100
-   */
-  description: string;
-  /**
    * Id
    * @format uuid
    */
   id: string;
+  /** Name */
+  name: string;
+  /** Description */
+  description: string;
   /**
    * Createdat
    * @format date-time
@@ -192,6 +185,14 @@ export interface CountPaginationResultsCityResponse {
   items: CityResponse[];
 }
 
+/** CountPaginationResults[EventResponse] */
+export interface CountPaginationResultsEventResponse {
+  /** Count */
+  count: number;
+  /** Items */
+  items: EventResponse[];
+}
+
 /** CountPaginationResults[FeedbackResponse] */
 export interface CountPaginationResultsFeedbackResponse {
   /** Count */
@@ -224,6 +225,99 @@ export type ErrorCodes =
   | "permission_error"
   | "database_error"
   | "validation_error";
+
+/** EventCreateRequest */
+export interface EventCreateRequest {
+  /**
+   * Date
+   * @format date
+   */
+  date: string;
+  /**
+   * Name
+   * @maxLength 100
+   */
+  name: string;
+  /**
+   * Description
+   * @maxLength 1000
+   */
+  description: string;
+  /** Latitude */
+  latitude?: number | string | null;
+  /** Longitude */
+  longitude?: number | string | null;
+  /** Cityid */
+  cityId?: string | null;
+  /**
+   * Routeids
+   * @default []
+   */
+  routeIds?: string[];
+}
+
+/** EventDateWhere */
+export interface EventDateWhere {
+  /** Day */
+  day?: number | null;
+  /** Month */
+  month?: number | null;
+  /** Year */
+  year?: number | null;
+}
+
+/** EventListRequest */
+export interface EventListRequest {
+  filters?: EventWhere | null;
+}
+
+/** EventResponse */
+export interface EventResponse {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+  /**
+   * Date
+   * @format date
+   */
+  date: string;
+  /** Name */
+  name: string;
+  /** Description */
+  description: string;
+  /** Latitude */
+  latitude?: string | null;
+  /** Longitude */
+  longitude?: string | null;
+  city?: CityResponse | null;
+  /** Routes */
+  routes?: RouteResponse[] | null;
+}
+
+/** EventUpdateRequest */
+export interface EventUpdateRequest {
+  /** Date */
+  date?: string | null;
+  /** Name */
+  name?: string | null;
+  /** Description */
+  description?: string | null;
+  /** Latitude */
+  latitude?: number | string | null;
+  /** Longitude */
+  longitude?: number | string | null;
+  /** Cityid */
+  cityId?: string | null;
+  /** Routeids */
+  routeIds?: string[] | null;
+}
+
+/** EventWhere */
+export interface EventWhere {
+  date?: EventDateWhere | null;
+}
 
 /** FeedbackCreateRequest */
 export interface FeedbackCreateRequest {
@@ -459,6 +553,15 @@ export interface UserAuthenticateRequest {
   email: string;
   /** Password */
   password: string;
+}
+
+/** UserChangeEmailRequest */
+export interface UserChangeEmailRequest {
+  /**
+   * Email
+   * @pattern ^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$
+   */
+  email: string;
 }
 
 /** UserChangePasswordRequest */
@@ -797,12 +900,48 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title RusGuide
- * @version 0.13.0
+ * @version 0.16.3
  *
  *
  * RusGuide Server
  *
  * ## Changelog
+ * ### 0.16.3
+ *
+ * - **fix** city schemas validation
+ *
+ * ### 0.16.2
+ *
+ * - **fix** email update issues
+ *
+ * ### 0.16.1
+ *
+ * - **fix** city name validation
+ *
+ * ### 0.16.0
+ *
+ * - **feat** events
+ *
+ * ### 0.15.0
+ *
+ * - **feat** change email
+ *
+ * ### 0.14.1
+ *
+ * - **fix** send email celery task queue
+ *
+ * ### 0.14.0
+ *
+ * - **feat** answer to feedback email notification
+ *
+ * ### 0.13.2
+ *
+ * - **fix** handle uniqueness violation
+ *
+ * ### 0.13.1
+ *
+ * - **fix** message queue settings
+ *
  * ### 0.13.0
  *
  * - **feat** complete route
@@ -844,35 +983,7 @@ export class HttpClient<SecurityDataType = unknown> {
  *
  * ### 0.12.2
  *
- * - **fix** route list filtering/ordering
- *
- * ### 0.12.1
- *
- * - **fix** change password
- * - **fix** waypoint list filters
- *
- * ### 0.12.0
- *
- * - **feat** retrieve route and waypoint by id
- *
- * ### 0.11.1
- *
- * - **fix** users router
- *
- * ### 0.11.0
- *
- * - **feat** get-me and change-password
- *
- * ### 0.10.0
- *
- * - **feat** update waypoints and routes
- * - **reworked** waypoints and routes attachments
- *
- * ### 0.9.0
- *
- * - **feat** create and retrieve waypoints and routes
- *
- * ###
+ * - **fix** r
  *
  * > See full changelog in repository "src" dir
  */
@@ -975,6 +1086,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         secure: true,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags users
+     * @name ChangeEmailApiV1UsersChangeEmailPost
+     * @summary Change Email
+     * @request POST:/api/v1/users/change-email
+     * @secure
+     */
+    changeEmailApiV1UsersChangeEmailPost: (data: UserChangeEmailRequest, params: RequestParams = {}) =>
+      this.request<void, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/users/change-email`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -1758,6 +1888,104 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteWaypointApiV1WaypointsWaypointIdDelete: (waypointId: string, params: RequestParams = {}) =>
       this.request<void, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
         path: `/api/v1/waypoints/${waypointId}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags events
+     * @name CreateEventApiV1EventsPost
+     * @summary Create Event
+     * @request POST:/api/v1/events
+     * @secure
+     */
+    createEventApiV1EventsPost: (data: EventCreateRequest, params: RequestParams = {}) =>
+      this.request<EventResponse, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/events`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags events
+     * @name RetrieveEventListApiV1EventsListPost
+     * @summary Retrieve Event List
+     * @request POST:/api/v1/events/list
+     * @secure
+     */
+    retrieveEventListApiV1EventsListPost: (data: EventListRequest, params: RequestParams = {}) =>
+      this.request<
+        CountPaginationResultsEventResponse,
+        AuthApiError | SimpleApiError | ValidationError | HTTPValidationError
+      >({
+        path: `/api/v1/events/list`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags events
+     * @name UpdateEventApiV1EventsEventIdPatch
+     * @summary Update Event
+     * @request PATCH:/api/v1/events/{event_id}
+     * @secure
+     */
+    updateEventApiV1EventsEventIdPatch: (eventId: string, data: EventUpdateRequest, params: RequestParams = {}) =>
+      this.request<EventResponse, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/events/${eventId}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags events
+     * @name RetrieveEventApiV1EventsEventIdGet
+     * @summary Retrieve Event
+     * @request GET:/api/v1/events/{event_id}
+     * @secure
+     */
+    retrieveEventApiV1EventsEventIdGet: (eventId: string, params: RequestParams = {}) =>
+      this.request<EventResponse, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/events/${eventId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags events
+     * @name DeleteEventApiV1EventsEventIdDelete
+     * @summary Delete Event
+     * @request DELETE:/api/v1/events/{event_id}
+     * @secure
+     */
+    deleteEventApiV1EventsEventIdDelete: (eventId: string, params: RequestParams = {}) =>
+      this.request<void, AuthApiError | SimpleApiError | ValidationError | HTTPValidationError>({
+        path: `/api/v1/events/${eventId}`,
         method: "DELETE",
         secure: true,
         ...params,

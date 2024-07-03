@@ -1,21 +1,16 @@
 import { Divider, Flex, Typography } from "antd";
 import dayjs from "dayjs";
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { EventCard } from "@/entities/Calendar";
-import { CalendarMock } from "@/widgets/Calendar/model/mocks";
 import { EventListProps } from "@/widgets/Calendar/model/types";
 
 export const EventList = ({
   setSelectedEvent,
   selectedEventDate,
+  events,
 }: EventListProps) => {
   const { t } = useTranslation("p_calendar");
-
-  const currentDate = useMemo(() => {
-    return CalendarMock.filter((item) => item.date === selectedEventDate);
-  }, [selectedEventDate]);
 
   return (
     <Flex vertical>
@@ -27,8 +22,8 @@ export const EventList = ({
 
       <Divider />
 
-      {currentDate.length > 0 ? (
-        currentDate.map((item) => (
+      {events && events?.length > 0 ? (
+        events.map((item) => (
           <EventCard event={item} setSelectedEvent={setSelectedEvent} />
         ))
       ) : (
