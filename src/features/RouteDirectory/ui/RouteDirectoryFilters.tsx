@@ -56,7 +56,7 @@ export const RouteDirectoryFilters = () => {
 
       <Flex gap="12px" justify="flex-end">
         <Button type="primary" htmlType="submit">
-          {t("glossary:actions.addButton")}
+          {t("glossary:actions.submitButton")}
         </Button>
 
         <Button onClick={() => reset()}>
