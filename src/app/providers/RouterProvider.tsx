@@ -72,7 +72,7 @@ const feedbackRoute = createRoute({
   validateSearch: (search: Record<string, unknown>) => {
     const order = includes(["asc", "desc"], search.order)
       ? search.order
-      : "asc";
+      : "desc";
 
     return {
       order: order as string,
