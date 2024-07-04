@@ -1,24 +1,16 @@
 import { Dayjs } from "dayjs";
 
-export type EventType = {
-  title: string;
-  date: string;
-  cityName: string;
-  text: string;
-  id: string;
-  latitude: string;
-  longitude: string;
-  routes: string[];
-};
+import { EventResponse } from "@/shared/api/schemas";
 
 export type EventListType = {
-  event: EventType;
+  event?: EventResponse;
   setSelectedEvent: (id: string) => void;
 };
 
 export type EventListProps = {
   selectedEventDate?: string;
   setSelectedEvent: (id: string) => void;
+  events?: EventResponse[];
 };
 
 export type CreateDrawerProps = {
@@ -43,9 +35,10 @@ export type CreateEventFormValue = {
 };
 
 export type EditDrawerProps = {
-  event: EventType;
+  event?: EventResponse;
   eventVariant?: string;
   setEventVariant: (variant: string | undefined) => void;
+  onClose: () => void;
 };
 
 export type EditEventFormValue = {
@@ -54,6 +47,6 @@ export type EditEventFormValue = {
   date: Dayjs;
   description: string;
   routes: string[];
-  latitude: string;
-  longitude: string;
+  latitude?: string | null;
+  longitude?: string | null;
 };

@@ -8,19 +8,19 @@ export const EventCard = ({ event, setSelectedEvent }: EventListType) => {
     <Flex vertical gap="4px">
       <Typography.Title
         level={4}
-        onClick={() => setSelectedEvent(event.id)}
+        onClick={() => setSelectedEvent(event?.id || "")}
         style={{ cursor: "pointer" }}
       >
-        {event.title}
+        {event?.name}
       </Typography.Title>
       <Flex gap="25px">
         <Flex gap="8px">
           <CalendarTwoTone twoToneColor="#1677FF" />
-          <Typography.Text>{event.date}</Typography.Text>
+          <Typography.Text>{event?.date}</Typography.Text>
         </Flex>
         <Flex gap="8px">
           <CompassTwoTone twoToneColor="#1677FF" />
-          <Typography.Text>{event.cityName}</Typography.Text>
+          <Typography.Text>{event?.city?.name}</Typography.Text>
         </Flex>
       </Flex>
       <Typography.Paragraph
@@ -29,7 +29,7 @@ export const EventCard = ({ event, setSelectedEvent }: EventListType) => {
           rows: 3,
         }}
       >
-        {event.text}
+        {event?.description}
       </Typography.Paragraph>
     </Flex>
   );

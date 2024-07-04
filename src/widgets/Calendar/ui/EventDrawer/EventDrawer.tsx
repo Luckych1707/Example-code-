@@ -1,10 +1,11 @@
 import { CloseOutlined } from "@ant-design/icons";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Drawer } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { EventEdit, EventInfo } from "@/features/Calendar";
-import { CalendarMock } from "@/widgets/Calendar/model/mocks";
+import { getEvent } from "@/widgets/Calendar/api/getEvents";
 import { EventDrawerProps } from "@/widgets/Calendar/model/types";
 
 export const EventDrawer = ({ selectedEventId, onClose }: EventDrawerProps) => {
@@ -12,7 +13,10 @@ export const EventDrawer = ({ selectedEventId, onClose }: EventDrawerProps) => {
 
   const [eventVariant, setEventVariant] = useState<string | undefined>("info");
 
-  const event = CalendarMock.filter((item) => item.id === selectedEventId)[0];
+  const { data: event } = useQuery({
+    ...getEvent.getQueryOptions(selectedEventId || ""),
+    enabled: !!selectedEventId,
+  });
 
   return (
     <Drawer
@@ -32,12 +36,14 @@ export const EventDrawer = ({ selectedEventId, onClose }: EventDrawerProps) => {
         eventVariant={eventVariant}
         cityVariant={eventVariant}
         setEventVariant={(variant) => setEventVariant(variant)}
+        onClose={onClose}
       />
 
       <EventEdit
         event={event}
         eventVariant={eventVariant}
         setEventVariant={(variant) => setEventVariant(variant)}
+        onClose={onClose}
       />
     </Drawer>
   );
