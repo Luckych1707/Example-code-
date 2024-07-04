@@ -17,7 +17,7 @@ import { FeedbackStatus } from "@/shared/ui/FeedbackStatus";
 import { getFeedback } from "@/widgets/Feedback/api/queries/getFeedback";
 import { CardDrawerProps } from "@/widgets/Feedback/model/types";
 
-export const CardDrawer = ({ id, onClose }: CardDrawerProps) => {
+export const CardDrawer = ({ id, onClose, isOpen }: CardDrawerProps) => {
   const { t } = useTranslation(["p_feedback", "glossary"]);
 
   const queryClient = useQueryClient();
@@ -51,10 +51,10 @@ export const CardDrawer = ({ id, onClose }: CardDrawerProps) => {
     <Drawer
       title={t("feedbackItemDrawer.title")}
       width={480}
-      open={!!id}
+      open={isOpen}
+      onClose={onClose}
       extra={<Button icon={<CloseOutlined />} type="text" onClick={onClose} />}
       closeIcon={false}
-      maskClosable={false}
     >
       <Flex vertical gap="12px">
         <Flex>

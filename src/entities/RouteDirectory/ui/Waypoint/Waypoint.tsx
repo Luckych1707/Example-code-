@@ -18,6 +18,7 @@ import { Upload } from "@/shared/ui/Upload";
 export const Waypoint = ({
   waypoint,
   index,
+  formState,
   control,
   remove,
   watch,
@@ -119,6 +120,8 @@ export const Waypoint = ({
             control={control}
             label={t("field.waypoint.field.nameLabel")}
             placeholder={t("field.waypoint.field.namePlaceholder")}
+            rules={{ required: true }}
+            isError={formState.errors.waypoint?.[index]?.name?.type}
           />
 
           <Flex justify="start" gap="8px">
@@ -149,6 +152,8 @@ export const Waypoint = ({
                     ),
                   );
               }}
+              rules={{ required: true }}
+              isError={formState.errors.waypoint?.[index]?.waypointImage?.type}
             />
 
             <Upload.Controller
@@ -167,6 +172,8 @@ export const Waypoint = ({
                     ),
                   });
               }}
+              rules={{ required: true }}
+              isError={formState.errors.waypoint?.[index]?.audio?.type}
             />
           </Flex>
 
@@ -175,6 +182,8 @@ export const Waypoint = ({
             control={control}
             label={t("field.waypoint.field.descriptionLabel")}
             placeholder={t("field.waypoint.field.descriptionPlaceholder")}
+            rules={{ required: true }}
+            isError={formState.errors.waypoint?.[index]?.description?.type}
           />
 
           <Flex gap="32px">
@@ -183,12 +192,17 @@ export const Waypoint = ({
               control={control}
               label={t("field.waypoint.field.latitudeLabel")}
               placeholder={t("field.waypoint.field.latitudePlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.waypoint?.[index]?.latitude?.type}
             />
+
             <Input.Controller
               name={`waypoint.${index}.longitude`}
               control={control}
               label={t("field.waypoint.field.longitudeLabel")}
               placeholder={t("field.waypoint.field.longitudePlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.waypoint?.[index]?.longitude?.type}
             />
           </Flex>
 

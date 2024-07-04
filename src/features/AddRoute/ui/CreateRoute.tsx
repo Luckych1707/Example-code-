@@ -138,7 +138,13 @@ const CreateRoute = () => {
         longitude: item.longitude,
         audioId: audioWaypointsRes[index],
         attachmentIds: imagesWaypointsIds[index].map((it) => it.id),
-        materials: item.material,
+        materials: item.material.map((it) => {
+          return {
+            name: it.name,
+            year: Number(it.year),
+            description: it.description,
+          };
+        }),
       })),
     );
   };
@@ -151,6 +157,8 @@ const CreateRoute = () => {
           control={methods.control}
           label={t("field.nameLabel")}
           placeholder={t("field.namePlaceholder")}
+          rules={{ required: true }}
+          isError={methods.formState.errors.name?.type}
         />
 
         <Flex gap="32px">
@@ -160,6 +168,8 @@ const CreateRoute = () => {
             label={t("field.cityLabel")}
             placeholder={t("field.cityPlaceholder")}
             options={cityOptions}
+            rules={{ required: true }}
+            isError={methods.formState.errors.cityId?.type}
           />
 
           <Select.Controller
@@ -168,6 +178,8 @@ const CreateRoute = () => {
             label={t("field.categoryLabel")}
             placeholder={t("field.categoryPlaceholder")}
             options={categoriesOptions}
+            rules={{ required: true }}
+            isError={methods.formState.errors.categoryId?.type}
           />
         </Flex>
 
@@ -188,6 +200,8 @@ const CreateRoute = () => {
               ),
             })
           }
+          rules={{ required: true }}
+          isError={methods.formState.errors.image?.type}
         />
 
         <Input.TextArea.Controller
@@ -195,6 +209,8 @@ const CreateRoute = () => {
           control={methods.control}
           label={t("field.descriptionLabel")}
           placeholder={t("field.descriptionPlaceholder")}
+          rules={{ required: true }}
+          isError={methods.formState.errors.description?.type}
         />
 
         <Divider style={{ margin: 0 }} />
@@ -211,6 +227,8 @@ const CreateRoute = () => {
               suffix={t("glossary:morphemes.km")}
               label={t("field.kmDurationLabel")}
               placeholder={t("field.kmDurationPlaceholder")}
+              rules={{ required: true }}
+              isError={methods.formState.errors.durationDistance?.type}
             />
 
             <Input.Controller
@@ -219,6 +237,8 @@ const CreateRoute = () => {
               suffix={t("glossary:morphemes.hours")}
               label={t("field.hourDurationLabel")}
               placeholder={t("field.hourDurationPlaceholder")}
+              rules={{ required: true }}
+              isError={methods.formState.errors.durationTime?.type}
             />
           </Flex>
 
@@ -229,6 +249,8 @@ const CreateRoute = () => {
               suffix={t("glossary:morphemes.rubles")}
               label={t("field.priceLabel")}
               placeholder={t("field.pricePlaceholder")}
+              rules={{ required: true }}
+              isError={methods.formState.errors.price?.type}
             />
           </Flex>
         </Flex>

@@ -5,17 +5,22 @@ import { CardDrawer, Filters, List } from "@/widgets/Feedback";
 
 const Feedback = () => {
   const [feedbackItemId, setFeedbackItemId] = useState<string>();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <Flex vertical style={{ maxWidth: "800px" }}>
       <Filters />
 
-      <List setFeedbackItemId={setFeedbackItemId} />
+      <List
+        setFeedbackItemId={setFeedbackItemId}
+        setIsOpen={() => setIsDrawerOpen(true)}
+      />
 
       {feedbackItemId && (
         <CardDrawer
           id={feedbackItemId}
-          onClose={() => setFeedbackItemId(undefined)}
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
         />
       )}
     </Flex>

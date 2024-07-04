@@ -31,9 +31,12 @@ export const UploadController = <
   reset,
   width,
   height,
+  isError,
   ...props
 }: UploadControllerProps<TFieldValues, TName>) => {
   const { t } = useTranslation("glossary");
+
+  const isRequiredError = isError === "required";
 
   const [previewImage, setPreviewImage] = useState<string[]>(uri || []);
   const [previewAudio, setPreviewAudio] = useState<
@@ -82,6 +85,10 @@ export const UploadController = <
             {secondaryLabel}
           </Typography.Paragraph>
         )}
+
+        {props.rules?.required && (
+          <Typography.Text style={{ color: "red" }}>*</Typography.Text>
+        )}
       </Flex>
 
       <Flex gap="8px" style={{ width: "fit-content" }}>
@@ -98,36 +105,43 @@ export const UploadController = <
                 }
 
                 return (
-                  <UploadComponent
-                    fileList={field.value?.fileList || []}
-                    onChange={field.onChange}
-                    accept={accept}
-                    listType={listType}
-                    beforeUpload={() => {
-                      return false;
-                    }}
-                    showUploadList={false}
-                    maxCount={maxFileLength}
-                  >
-                    {previewImage.length < maxFileLength && (
-                      <Button
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          border: 0,
-                          background: "none",
-                          boxShadow: "none",
-                        }}
-                      >
-                        <Flex vertical align="center" gap="8px">
-                          <PlusOutlined />
-                          <Typography.Text>
-                            {t("glossary:actions.addButton")}
-                          </Typography.Text>
-                        </Flex>
-                      </Button>
+                  <Flex vertical>
+                    <UploadComponent
+                      fileList={field.value?.fileList || []}
+                      onChange={field.onChange}
+                      accept={accept}
+                      listType={listType}
+                      beforeUpload={() => {
+                        return false;
+                      }}
+                      showUploadList={false}
+                      maxCount={maxFileLength}
+                    >
+                      {previewImage.length < maxFileLength && (
+                        <Button
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            border: 0,
+                            background: "none",
+                            boxShadow: "none",
+                          }}
+                        >
+                          <Flex vertical align="center" gap="8px">
+                            <PlusOutlined />
+                            <Typography.Text>
+                              {t("glossary:actions.addButton")}
+                            </Typography.Text>
+                          </Flex>
+                        </Button>
+                      )}
+                    </UploadComponent>
+                    {isRequiredError && (
+                      <Typography.Text type="danger">
+                        {t("error.required")}
+                      </Typography.Text>
                     )}
-                  </UploadComponent>
+                  </Flex>
                 );
               }}
             />

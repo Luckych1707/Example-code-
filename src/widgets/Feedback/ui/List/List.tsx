@@ -12,7 +12,7 @@ import { usePagination } from "@/shared/helpers/hooks/usePagination";
 import { DEFAULT_SEARCH_PARAMS } from "@/widgets/Feedback/constants/constants";
 import { ListProps } from "@/widgets/Feedback/model/types";
 
-export const List = ({ setFeedbackItemId }: ListProps) => {
+export const List = ({ setFeedbackItemId, setIsOpen }: ListProps) => {
   const search = useSearch({ from: "/feedback" });
 
   const { limit, skip, handleListChange, tableParams, setTableParams } =
@@ -63,7 +63,11 @@ export const List = ({ setFeedbackItemId }: ListProps) => {
       dataSource={data?.items}
       renderItem={(item) => (
         <AntList.Item>
-          <FeedbackCard setFeedbackItemId={setFeedbackItemId} reviews={item} />
+          <FeedbackCard
+            setFeedbackItemId={setFeedbackItemId}
+            reviews={item}
+            setIsOpen={setIsOpen}
+          />
         </AntList.Item>
       )}
     />

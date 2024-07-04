@@ -15,7 +15,8 @@ import { Form } from "./styled";
 export const CategoryCreate = () => {
   const { t } = useTranslation("p_category");
 
-  const { control, handleSubmit, reset } = useForm<CategoryCreateFormValues>();
+  const { control, handleSubmit, reset, formState } =
+    useForm<CategoryCreateFormValues>();
 
   const [isCreate, setIsCreate] = useState(false);
 
@@ -53,7 +54,12 @@ export const CategoryCreate = () => {
         <Flex vertical>
           <Flex>
             <Form onSubmit={handleSubmit(handleFormSubmit)}>
-              <Input.Controller control={control} name="name" />
+              <Input.Controller
+                name="name"
+                control={control}
+                rules={{ required: true }}
+                isError={formState.errors.name?.type}
+              />
               <Flex gap="16px">
                 <Button
                   icon={<CheckOutlined />}

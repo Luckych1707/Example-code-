@@ -8,4 +8,5 @@ export interface SelectControllerProps<
   placeholder?: string;
   options?: { label: string; value: string }[];
   mode?: "multiple" | "tags";
+  isError?: string;
 }

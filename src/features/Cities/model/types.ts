@@ -11,7 +11,6 @@ export type CityInfoType = {
 
 export type CityEditType = {
   city?: CityResponse;
-  setCityVariant: (variant: string | undefined) => void;
   onClose: () => void;
 };
 

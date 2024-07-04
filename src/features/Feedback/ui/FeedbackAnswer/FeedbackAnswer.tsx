@@ -44,6 +44,7 @@ export const FeedbackAnswer = ({
           name="answer"
           label={t("feedbackItemDrawer.answerLabel")}
           placeholder={t("feedbackItemDrawer.answerPlaceholder")}
+          rules={{ required: true }}
         />
 
         <Flex justify="flex-end">

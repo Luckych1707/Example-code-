@@ -35,7 +35,8 @@ export const CreateCityDrawer = ({
     },
   });
 
-  const { control, handleSubmit, setValue } = useForm<CityEditValues>();
+  const { control, handleSubmit, setValue, formState } =
+    useForm<CityEditValues>();
 
   const handleFormSubmit = async (values: CityEditValues) => {
     const imagesIds = await Promise.all(
@@ -58,9 +59,9 @@ export const CreateCityDrawer = ({
       title={t("addCityButton")}
       width={480}
       open={isOpen}
+      onClose={onClose}
       extra={<Button icon={<CloseOutlined />} type="text" onClick={onClose} />}
       closeIcon={false}
-      maskClosable={false}
     >
       <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <Input.Controller
@@ -68,6 +69,8 @@ export const CreateCityDrawer = ({
           name="name"
           label={t("cityDrawer.form.labelName")}
           placeholder={t("cityDrawer.form.placeholderName")}
+          rules={{ required: true }}
+          isError={formState.errors.name?.type}
         />
 
         <Upload.Controller
@@ -76,6 +79,8 @@ export const CreateCityDrawer = ({
           label={t("cityDrawer.form.labelPhoto")}
           canClear
           reset={() => setValue("image", undefined)}
+          rules={{ required: true }}
+          isError={formState.errors.image?.type}
         />
 
         <Input.TextArea.Controller
@@ -83,6 +88,8 @@ export const CreateCityDrawer = ({
           name="description"
           label={t("cityDrawer.form.labelDescription")}
           placeholder={t("cityDrawer.form.placeholderDescription")}
+          rules={{ required: true }}
+          isError={formState.errors.description?.type}
         />
 
         <Divider />

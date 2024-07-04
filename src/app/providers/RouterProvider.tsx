@@ -23,7 +23,7 @@ const rootRoute = createRootRoute({
 const emptyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: () => <Navigate to="/" />,
+  component: () => <Navigate to="/routes" />,
 });
 
 const directoryRoute = createRoute({

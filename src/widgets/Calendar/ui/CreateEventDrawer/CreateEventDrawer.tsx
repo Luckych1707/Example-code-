@@ -28,9 +28,10 @@ export const CreateEventDrawer = ({
 
   const queryClient = useQueryClient();
 
-  const { control, handleSubmit, watch } = useForm<CreateEventFormValue>({
-    defaultValues: { date: dayjs(selectedDate) },
-  });
+  const { control, handleSubmit, watch, formState } =
+    useForm<CreateEventFormValue>({
+      defaultValues: { date: dayjs(selectedDate) },
+    });
 
   const isCitySelected = !!watch("city");
   const selectedCity = watch("city");
@@ -101,6 +102,8 @@ export const CreateEventDrawer = ({
             control={control}
             label={t("eventDrawer.fields.nameLabel")}
             placeholder={t("eventDrawer.fields.namePlaceholder")}
+            rules={{ required: true }}
+            isError={formState.errors.name?.type}
           />
 
           <Flex gap="32px">
@@ -110,6 +113,8 @@ export const CreateEventDrawer = ({
               options={cityOptions}
               label={t("eventDrawer.fields.cityLabel")}
               placeholder={t("eventDrawer.fields.cityPlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.name?.type}
             />
 
             <DatePicker.Controller
@@ -117,6 +122,7 @@ export const CreateEventDrawer = ({
               control={control}
               label={t("eventDrawer.fields.dateLabel")}
               placeholder={t("eventDrawer.fields.datePlaceholder")}
+              rules={{ required: true }}
             />
           </Flex>
 
@@ -125,6 +131,8 @@ export const CreateEventDrawer = ({
             control={control}
             label={t("eventDrawer.fields.descriptionLabel")}
             placeholder={t("eventDrawer.fields.descriptionLabel")}
+            rules={{ required: true }}
+            isError={formState.errors.name?.type}
           />
 
           <Select.Controller
@@ -135,6 +143,8 @@ export const CreateEventDrawer = ({
             disabled={!isCitySelected}
             label={t("eventDrawer.fields.routesLabel")}
             placeholder={t("eventDrawer.fields.routesPlaceholder")}
+            rules={{ required: true }}
+            isError={formState.errors.name?.type}
           />
 
           <Flex gap="32px">
@@ -143,12 +153,17 @@ export const CreateEventDrawer = ({
               control={control}
               label={t("eventDrawer.fields.latitudeLabel")}
               placeholder={t("eventDrawer.fields.latitudePlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.name?.type}
             />
+
             <Input.Controller
               name="longitude"
               control={control}
               label={t("eventDrawer.fields.longitudeLabel")}
               placeholder={t("eventDrawer.fields.longitudePlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.name?.type}
             />
           </Flex>
         </Flex>
@@ -160,7 +175,9 @@ export const CreateEventDrawer = ({
             {t("glossary:actions.addButton")}
           </Button>
 
-          <Button>{t("glossary:actions.cancelButton")}</Button>
+          <Button onClick={onClose}>
+            {t("glossary:actions.cancelButton")}
+          </Button>
         </Flex>
       </Form>
     </Drawer>

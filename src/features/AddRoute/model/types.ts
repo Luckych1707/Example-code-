@@ -17,7 +17,7 @@ export type CreateRouteFormValues = {
     waypointImagePreview?: { uri: string; id: string }[];
     audio?: { file: UploadFile; fileList: UploadFile[] };
     audioPreview?: { uri: string; name: string };
-    material: { name: string; year: number; description: string }[];
+    material: { name: string; year: string; description: string }[];
   }[];
   durationDistance: string;
   durationTime: string;

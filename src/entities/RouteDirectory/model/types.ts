@@ -1,5 +1,6 @@
 import {
   Control,
+  FormState,
   type UseFieldArrayMove,
   UseFormSetValue,
   type UseFormWatch,
@@ -10,6 +11,7 @@ import { CreateRouteFormValues } from "@/features/AddRoute/model/types";
 export type WaypointProps = {
   waypoint: Record<"id", string>;
   index: number;
+  formState: FormState<CreateRouteFormValues>;
   control: Control<CreateRouteFormValues> | undefined;
   remove: (index: number) => void;
   setValue: UseFormSetValue<CreateRouteFormValues>;

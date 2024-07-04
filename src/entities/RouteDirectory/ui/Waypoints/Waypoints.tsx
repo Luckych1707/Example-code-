@@ -15,7 +15,10 @@ export const Waypoints = ({ setDeletedWaypoints }: Props) => {
   const { t } = useTranslation("p_createRoute");
 
   const [isAllClosed, setIsAllClosed] = useState(false);
-  const { control, watch, setValue } = useFormContext<CreateRouteFormValues>();
+
+  const { control, watch, setValue, formState } =
+    useFormContext<CreateRouteFormValues>();
+
   const waypoint = watch(`waypoint`);
   const { fields, append, remove, move } = useFieldArray({
     control,
@@ -55,6 +58,7 @@ export const Waypoints = ({ setDeletedWaypoints }: Props) => {
         <Waypoint
           waypoint={item}
           control={control}
+          formState={formState}
           index={index}
           remove={(index) => {
             remove(index);

@@ -17,7 +17,14 @@ export const DatePickerController = <
       render={({ field }) => {
         return (
           <Flex vertical gap="4px" style={{ width: "100%" }}>
-            {label && <Typography.Text style={{}}>{label}</Typography.Text>}
+            {label && (
+              <Flex>
+                <Typography.Text>{label}</Typography.Text>
+                {props.rules?.required && (
+                  <Typography.Text style={{ color: "red" }}>*</Typography.Text>
+                )}
+              </Flex>
+            )}
             <DatePicker {...field} placeholder={placeholder} />
           </Flex>
         );

@@ -14,7 +14,7 @@ import { Input } from "@/shared/ui/Input";
 export const SignInForm = () => {
   const { t } = useTranslation(["p_signIn", "glossary"]);
 
-  const { control, handleSubmit } = useForm<SignInFormValues>();
+  const { control, handleSubmit, formState } = useForm<SignInFormValues>();
 
   const queryClient = useQueryClient();
 
@@ -69,6 +69,8 @@ export const SignInForm = () => {
         prefix={<MailOutlined />}
         label={t("form.emailLabel")}
         placeholder={t("form.emailPlaceholder")}
+        rules={{ required: true }}
+        isError={formState.errors.email?.type}
       />
       <Input.Controller
         control={control}
@@ -76,6 +78,8 @@ export const SignInForm = () => {
         prefix={<LockOutlined />}
         label={t("form.passwordLabel")}
         placeholder={t("form.passwordPlaceholder")}
+        rules={{ required: true }}
+        isError={formState.errors.password?.type}
       />
       <Button htmlType="submit" type="primary">
         {t("signIn")}

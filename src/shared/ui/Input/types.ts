@@ -9,6 +9,7 @@ export interface InputControllerProps<
   placeholder?: string;
   prefix?: React.ReactNode;
   suffix?: string;
+  isError?: string;
 }
 
 export interface TextAreaControllerProps<
@@ -18,4 +19,6 @@ export interface TextAreaControllerProps<
   label?: string;
   placeholder?: string;
   prefix?: React.ReactNode;
+  autoSize?: boolean;
+  isError?: string;
 }

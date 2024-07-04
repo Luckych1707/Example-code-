@@ -17,7 +17,7 @@ export const CategoryEdit = ({
   category,
   setEditCategoryId,
 }: CategoryEditProps) => {
-  const { control, handleSubmit } = useForm<CategoryEditFormValues>({
+  const { control, handleSubmit, formState } = useForm<CategoryEditFormValues>({
     defaultValues: { name: category.name },
   });
 
@@ -39,7 +39,12 @@ export const CategoryEdit = ({
 
   return (
     <Form onSubmit={handleSubmit(handleFormSubmit)}>
-      <Input.Controller control={control} name="name" />
+      <Input.Controller
+        name="name"
+        control={control}
+        rules={{ required: true }}
+        isError={formState.errors.name?.type}
+      />
 
       <Flex gap="16px">
         <Button

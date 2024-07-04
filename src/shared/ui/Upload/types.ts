@@ -15,4 +15,5 @@ export interface UploadControllerProps<
   reset?: (value?: { uid: string; uriPreview?: string }) => void;
   width?: number;
   height?: number;
+  isError?: string;
 }

@@ -8,8 +8,10 @@ import { FeedbackStatus } from "@/shared/ui/FeedbackStatus";
 export const FeedbackCard = ({
   reviews,
   setFeedbackItemId,
+  setIsOpen,
 }: FeedbackCardProps) => {
   const onItemClick = () => {
+    setIsOpen();
     setFeedbackItemId(reviews.id);
   };
 

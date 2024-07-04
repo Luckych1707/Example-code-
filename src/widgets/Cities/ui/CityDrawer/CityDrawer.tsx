@@ -31,9 +31,9 @@ export const CityDrawer = ({ selectedCity, onClose }: CityDrawerProps) => {
       }
       width={480}
       open={!!selectedCity.id}
+      onClose={onClose}
       extra={<Button icon={<CloseOutlined />} type="text" onClick={onClose} />}
       closeIcon={false}
-      maskClosable={false}
     >
       {(cityVariant === "info" || cityVariant === "delete") && (
         <CityInfo
@@ -43,13 +43,7 @@ export const CityDrawer = ({ selectedCity, onClose }: CityDrawerProps) => {
           onClose={onClose}
         />
       )}
-      {cityVariant === "edit" && (
-        <CityEdit
-          city={data}
-          setCityVariant={setCityVariant}
-          onClose={onClose}
-        />
-      )}
+      {cityVariant === "edit" && <CityEdit city={data} onClose={onClose} />}
     </Drawer>
   );
 };

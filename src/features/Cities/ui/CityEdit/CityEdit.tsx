@@ -12,7 +12,7 @@ import { getCitiesList } from "@/shared/api/handBooks/queries/getCities";
 import { Input } from "@/shared/ui/Input";
 import { Upload } from "@/shared/ui/Upload";
 
-export const CityEdit = ({ city, setCityVariant, onClose }: CityEditType) => {
+export const CityEdit = ({ city, onClose }: CityEditType) => {
   const { t } = useTranslation(["p_city", "glossary"]);
 
   const queryClient = useQueryClient();
@@ -31,7 +31,8 @@ export const CityEdit = ({ city, setCityVariant, onClose }: CityEditType) => {
     },
   });
 
-  const { control, handleSubmit, setValue } = useForm<CityEditValues>();
+  const { control, handleSubmit, setValue, formState } =
+    useForm<CityEditValues>();
 
   useEffect(() => {
     setValue("name", city?.name || "");
@@ -66,6 +67,8 @@ export const CityEdit = ({ city, setCityVariant, onClose }: CityEditType) => {
         name="name"
         label={t("cityDrawer.form.labelName")}
         placeholder={t("cityDrawer.form.placeholderName")}
+        rules={{ required: true }}
+        isError={formState.errors.name?.type}
       />
 
       <Upload.Controller
@@ -75,6 +78,8 @@ export const CityEdit = ({ city, setCityVariant, onClose }: CityEditType) => {
         uri={[city?.image.uri]}
         canClear
         reset={() => setValue("image", undefined)}
+        rules={{ required: true }}
+        isError={formState.errors.image?.type}
       />
 
       <Input.TextArea.Controller
@@ -82,6 +87,8 @@ export const CityEdit = ({ city, setCityVariant, onClose }: CityEditType) => {
         name="description"
         label={t("cityDrawer.form.labelDescription")}
         placeholder={t("cityDrawer.form.placeholderDescription")}
+        rules={{ required: true }}
+        isError={formState.errors.description?.type}
       />
 
       <Divider />
@@ -91,9 +98,7 @@ export const CityEdit = ({ city, setCityVariant, onClose }: CityEditType) => {
           {t("glossary:actions.saveButton")}
         </Button>
 
-        <Button onClick={() => setCityVariant("info")}>
-          {t("glossary:actions.cancelButton")}
-        </Button>
+        <Button onClick={onClose}>{t("glossary:actions.cancelButton")}</Button>
       </Flex>
     </Form>
   );

@@ -29,7 +29,7 @@ export const EventEdit = ({
 
   const queryClient = useQueryClient();
 
-  const { control, handleSubmit, setValue, watch, trigger } =
+  const { control, handleSubmit, setValue, watch, trigger, formState } =
     useForm<EditEventFormValue>({});
 
   const selectedCity = watch("city");
@@ -125,6 +125,8 @@ export const EventEdit = ({
             control={control}
             label={t("eventDrawer.fields.nameLabel")}
             placeholder={t("eventDrawer.fields.namePlaceholder")}
+            rules={{ required: true }}
+            isError={formState.errors.name?.type}
           />
 
           <Flex gap="32px">
@@ -134,6 +136,8 @@ export const EventEdit = ({
               options={cityOptions}
               label={t("eventDrawer.fields.cityLabel")}
               placeholder={t("eventDrawer.fields.cityPlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.name?.type}
             />
 
             <DatePicker.Controller
@@ -141,6 +145,7 @@ export const EventEdit = ({
               control={control}
               label={t("eventDrawer.fields.dateLabel")}
               placeholder={t("eventDrawer.fields.datePlaceholder")}
+              rules={{ required: true }}
             />
           </Flex>
 
@@ -149,6 +154,8 @@ export const EventEdit = ({
             control={control}
             label={t("eventDrawer.fields.descriptionLabel")}
             placeholder={t("eventDrawer.fields.descriptionLabel")}
+            rules={{ required: true }}
+            isError={formState.errors.name?.type}
           />
 
           <Select.Controller
@@ -158,6 +165,8 @@ export const EventEdit = ({
             options={routesOptions}
             label={t("eventDrawer.fields.routesLabel")}
             placeholder={t("eventDrawer.fields.routesPlaceholder")}
+            rules={{ required: true }}
+            isError={formState.errors.name?.type}
           />
 
           <Flex gap="32px">
@@ -166,6 +175,8 @@ export const EventEdit = ({
               control={control}
               label={t("eventDrawer.fields.latitudeLabel")}
               placeholder={t("eventDrawer.fields.latitudePlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.name?.type}
             />
 
             <Input.Controller
@@ -173,6 +184,8 @@ export const EventEdit = ({
               control={control}
               label={t("eventDrawer.fields.longitudeLabel")}
               placeholder={t("eventDrawer.fields.longitudePlaceholder")}
+              rules={{ required: true }}
+              isError={formState.errors.name?.type}
             />
           </Flex>
         </Flex>

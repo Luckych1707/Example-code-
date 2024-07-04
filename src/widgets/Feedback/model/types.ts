@@ -14,6 +14,7 @@ export type FeedbackItemDrawerType = {
 export type CardDrawerProps = {
   onClose: () => void;
   id: string;
+  isOpen: boolean;
 };
 
 export type FiltersFormValues = {
@@ -24,5 +25,6 @@ export type FiltersFormValues = {
 };
 
 export type ListProps = {
+  setIsOpen: () => void;
   setFeedbackItemId: (id: string | undefined) => void;
 };

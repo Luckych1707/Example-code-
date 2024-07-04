@@ -4,12 +4,13 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 import { MaterialProps } from "@/entities/RouteDirectory/model/types";
+import { CreateRouteFormValues } from "@/features/AddRoute/model/types";
 import { Input } from "@/shared/ui/Input";
 
 export const Material = ({ waypointIndex }: MaterialProps) => {
   const { t } = useTranslation(["p_createRoute", "glossary"]);
 
-  const { control } = useFormContext();
+  const { control, formState } = useFormContext<CreateRouteFormValues>();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -67,6 +68,11 @@ export const Material = ({ waypointIndex }: MaterialProps) => {
                 control={control}
                 label={t("field.waypoint.material.field.nameLabel")}
                 placeholder={t("field.waypoint.material.field.namePlaceholder")}
+                rules={{ required: true }}
+                isError={
+                  formState.errors.waypoint?.[waypointIndex]?.material?.[index]
+                    ?.name?.type
+                }
               />
 
               <Input.Controller
@@ -76,6 +82,11 @@ export const Material = ({ waypointIndex }: MaterialProps) => {
                 placeholder={t(
                   "field.waypoint.material.field.yearOfIssuePlaceholder",
                 )}
+                rules={{ required: true }}
+                isError={
+                  formState.errors.waypoint?.[waypointIndex]?.material?.[index]
+                    ?.year?.type
+                }
               />
             </Flex>
 
@@ -86,6 +97,11 @@ export const Material = ({ waypointIndex }: MaterialProps) => {
               placeholder={t(
                 "field.waypoint.material.field.shortDescriptionPlaceholder",
               )}
+              rules={{ required: true }}
+              isError={
+                formState.errors.waypoint?.[waypointIndex]?.material?.[index]
+                  ?.description?.type
+              }
             />
           </Flex>
         ))}

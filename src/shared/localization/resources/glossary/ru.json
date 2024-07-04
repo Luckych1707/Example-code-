@@ -1,5 +1,8 @@
 {
   "mainTitle": "RussGuide",
+  "error": {
+    "required": "Поле обязательно для заполнения"
+  },
   "status": {
     "new": "Новое",
     "processed": "Обработано",
