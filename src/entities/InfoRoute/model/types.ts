@@ -4,5 +4,4 @@ export type WaypointProps = {
   item: WaypointResponse;
   index: number;
   isAllClosed: boolean;
-  setIsAllClosed: () => void;
 };

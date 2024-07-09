@@ -127,12 +127,7 @@ export const InfoRoute = () => {
       </Flex>
 
       {waypointsList?.items.map((item, index) => (
-        <Waypoint
-          item={item}
-          index={index}
-          isAllClosed={isAllClosed}
-          setIsAllClosed={() => setIsAllClosed(!isAllClosed)}
-        />
+        <Waypoint item={item} index={index} isAllClosed={isAllClosed} />
       ))}
 
       <Divider style={{ margin: 0 }} />

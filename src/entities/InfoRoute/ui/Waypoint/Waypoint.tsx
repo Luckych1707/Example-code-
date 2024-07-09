@@ -6,12 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { WaypointProps } from "@/entities/InfoRoute/model/types";
 
-export const Waypoint = ({
-  item,
-  setIsAllClosed,
-  isAllClosed,
-  index,
-}: WaypointProps) => {
+export const Waypoint = ({ item, isAllClosed, index }: WaypointProps) => {
   const { t } = useTranslation(["p_createRoute", "glossary"]);
 
   const [isOpen, setIsOpen] = useState(true);
@@ -37,7 +32,6 @@ export const Waypoint = ({
           type="text"
           onClick={() => {
             setIsOpen(!isOpen);
-            setIsAllClosed();
           }}
         />
 
