@@ -1,0 +1,1 @@
+export { TrainersInfoDrawer } from "./TrainersInfoDrawer";

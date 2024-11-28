@@ -1,0 +1,34 @@
+{
+  "usersTable": {
+    "columnName": {
+      "name": "Name",
+      "mail": "E-mail",
+      "phone": "Phone",
+      "specialization": "Specialization",
+      "goal": "Goal"
+    }
+  },
+  "admin": {
+    "createAdminButton": "Create admin",
+    "adminsTable": {
+      "columnName": {
+        "name": "Name",
+        "mail": "E-mail",
+        "actions": "Actions"
+      }
+    },
+    "createAdminModal": {
+      "title": "Create admin",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "emailPlaceholder": "E-mail",
+      "rules": {
+        "required": "{{text}} is required"
+      }
+    }
+  },
+  "deleteAdminPopconfirm": {
+    "title": "Delete admin",
+    "text": "Are you sure you want to delete this admin?"
+  }
+}
