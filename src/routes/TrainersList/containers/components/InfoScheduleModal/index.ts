@@ -1,0 +1,1 @@
+export { InfoScheduleModal } from "./InfoScheduleModal";

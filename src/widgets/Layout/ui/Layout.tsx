@@ -76,7 +76,7 @@ export const Layout = () => {
     );
   }
 
-  if (!data) {
+  if (data) {
     return <SignIn />;
   }
 
@@ -140,7 +140,7 @@ export const Layout = () => {
               </Typography.Title>
             </Flex>
             <Flex align="center" gap="16px">
-              <Typography.Text>{data.email}</Typography.Text>
+              <Typography.Text>{data?.email}</Typography.Text>
               <Button
                 icon={<LoginOutlined />}
                 type="text"
