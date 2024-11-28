@@ -1,1 +1,0 @@
-export { CreateTrainerDrawer } from "./CreateTrainerDrawer";
