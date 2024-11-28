@@ -1,1 +1,0 @@
-export { DeleteAdmin } from "./DeleteAdmin";
